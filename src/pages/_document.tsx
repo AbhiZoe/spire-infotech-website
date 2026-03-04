@@ -7,7 +7,9 @@ export default function Document() {
         <meta charSet="utf-8" />
         <meta name="theme-color" content="#1FC7C7" />
         <meta name="description" content="Spire Infotech – Innovative Software Solutions for Modern Businesses. Custom ERP, Web & Mobile development." />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/images/logo-icon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/images/logo-icon.svg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"

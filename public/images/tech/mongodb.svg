@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- MongoDB leaf logo simplified -->
+  <path d="M32 6 C28 14 20 20 20 32 C20 44 26 52 32 58 C38 52 44 44 44 32 C44 20 36 14 32 6 Z" fill="#47A248"/>
+  <rect x="30.5" y="36" width="3" height="20" rx="1.5" fill="#47A248" opacity="0.5"/>
+</svg>

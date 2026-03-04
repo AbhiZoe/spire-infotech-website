@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="16" fill="#EBF9F9"/>
+  <!-- Data analytics / chart icon -->
+  <rect x="12" y="44" width="8" height="14" rx="3" fill="#1FC7C7" opacity="0.5"/>
+  <rect x="24" y="34" width="8" height="24" rx="3" fill="#1FC7C7" opacity="0.7"/>
+  <rect x="36" y="24" width="8" height="34" rx="3" fill="#1FC7C7" opacity="0.9"/>
+  <rect x="48" y="30" width="8" height="28" rx="3" fill="#1FC7C7" opacity="0.8"/>
+  <!-- Trend line -->
+  <polyline points="16,42 28,30 40,20 52,26" stroke="#1FC7C7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Baseline -->
+  <line x1="10" y1="58" x2="58" y2="58" stroke="#1FC7C7" stroke-width="1.5" opacity="0.3"/>
+</svg>

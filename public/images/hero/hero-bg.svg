@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none">
+  <!-- Dark gradient background -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1f2a30;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#121a1e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="circleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1FC7C7;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#0e6262;stop-opacity:0.1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bgGrad)"/>
+  <!-- Decorative circles -->
+  <circle cx="650" cy="100" r="200" fill="url(#circleGrad)"/>
+  <circle cx="150" cy="400" r="150" fill="url(#circleGrad)" opacity="0.5"/>
+  <!-- Grid lines -->
+  <g stroke="#1FC7C7" stroke-width="0.5" opacity="0.1">
+    <line x1="0" y1="100" x2="800" y2="100"/>
+    <line x1="0" y1="200" x2="800" y2="200"/>
+    <line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="400" x2="800" y2="400"/>
+    <line x1="100" y1="0" x2="100" y2="500"/>
+    <line x1="200" y1="0" x2="200" y2="500"/>
+    <line x1="300" y1="0" x2="300" y2="500"/>
+    <line x1="400" y1="0" x2="400" y2="500"/>
+    <line x1="500" y1="0" x2="500" y2="500"/>
+    <line x1="600" y1="0" x2="600" y2="500"/>
+    <line x1="700" y1="0" x2="700" y2="500"/>
+  </g>
+  <!-- Floating tech nodes -->
+  <circle cx="500" cy="180" r="6" fill="#1FC7C7" opacity="0.8"/>
+  <circle cx="560" cy="280" r="4" fill="#1FC7C7" opacity="0.6"/>
+  <circle cx="620" cy="200" r="5" fill="#1FC7C7" opacity="0.7"/>
+  <circle cx="480" cy="320" r="3" fill="#1FC7C7" opacity="0.5"/>
+  <circle cx="680" cy="300" r="4" fill="#1FC7C7" opacity="0.6"/>
+  <!-- Connection lines between nodes -->
+  <line x1="500" y1="180" x2="560" y2="280" stroke="#1FC7C7" stroke-width="1" opacity="0.3"/>
+  <line x1="560" y1="280" x2="620" y2="200" stroke="#1FC7C7" stroke-width="1" opacity="0.3"/>
+  <line x1="620" y1="200" x2="680" y2="300" stroke="#1FC7C7" stroke-width="1" opacity="0.3"/>
+  <line x1="480" y1="320" x2="560" y2="280" stroke="#1FC7C7" stroke-width="1" opacity="0.3"/>
+  <!-- Central tech illustration -->
+  <rect x="460" y="140" width="240" height="200" rx="16" fill="#1FC7C7" opacity="0.05" stroke="#1FC7C7" stroke-width="1" stroke-opacity="0.2"/>
+  <!-- Code lines illustration -->
+  <rect x="480" y="165" width="100" height="8" rx="4" fill="#1FC7C7" opacity="0.4"/>
+  <rect x="480" y="182" width="140" height="8" rx="4" fill="#1FC7C7" opacity="0.25"/>
+  <rect x="480" y="199" width="80" height="8" rx="4" fill="#1FC7C7" opacity="0.35"/>
+  <rect x="480" y="216" width="120" height="8" rx="4" fill="#1FC7C7" opacity="0.2"/>
+  <rect x="480" y="233" width="90" height="8" rx="4" fill="#1FC7C7" opacity="0.3"/>
+  <rect x="480" y="250" width="60" height="8" rx="4" fill="#1FC7C7" opacity="0.4"/>
+  <!-- Spire logo icon in hero -->
+  <rect x="560" y="300" width="60" height="60" rx="12" fill="#1FC7C7"/>
+  <polygon points="590,312 610,348 590,340 570,348" fill="white" opacity="0.9"/>
+</svg>
