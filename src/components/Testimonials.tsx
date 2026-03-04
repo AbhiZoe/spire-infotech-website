@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { fadeInUp, viewportConfig } from "@/lib/animations";
 
 interface Testimonial {
   id: number;
@@ -57,25 +59,61 @@ const StarRating: React.FC<{ rating: number }> = ({ rating }) => {
   return (
     <div className="flex gap-1 mb-4">
       {Array.from({ length: 5 }, (_, i) => (
-        <svg
+        <motion.svg
           key={i}
           className={`w-5 h-5 ${i < rating ? "text-yellow-400" : "text-gray-300"}`}
           fill="currentColor"
           viewBox="0 0 20 20"
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: i * 0.08, type: "spring", stiffness: 300 }}
         >
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-        </svg>
+        </motion.svg>
       ))}
     </div>
   );
 };
 
+const slideVariants = {
+  enter: (dir: number) => ({
+    x: dir > 0 ? 80 : -80,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    transition: { duration: 0.4, ease: "easeOut" as const },
+  },
+  exit: (dir: number) => ({
+    x: dir > 0 ? -80 : 80,
+    opacity: 0,
+    transition: { duration: 0.3, ease: "easeIn" as const },
+  }),
+};
+
 const Testimonials: React.FC = () => {
   const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const [autoPlay, setAutoPlay] = useState(true);
 
-  const prev = () =>
+  const prev = () => {
+    setDirection(-1);
     setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length);
-  const next = () => setCurrent((c) => (c + 1) % testimonials.length);
+  };
+  const next = () => {
+    setDirection(1);
+    setCurrent((c) => (c + 1) % testimonials.length);
+  };
+
+  useEffect(() => {
+    if (!autoPlay) return;
+    const interval = setInterval(() => {
+      setDirection(1);
+      setCurrent((c) => (c + 1) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [autoPlay]);
 
   const testimonial = testimonials[current];
 
@@ -83,7 +121,13 @@ const Testimonials: React.FC = () => {
     <section id="testimonials" className="section-padding bg-gray-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
-        <div className="text-center mb-12 animate-fade-in">
+        <motion.div
+          className="text-center mb-12"
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportConfig}
+        >
           <span className="inline-block text-primary-500 font-semibold text-sm uppercase tracking-widest mb-3">
             Client Stories
           </span>
@@ -92,36 +136,56 @@ const Testimonials: React.FC = () => {
             Don&apos;t just take our word for it — hear from the businesses
             we&apos;ve helped grow.
           </p>
-        </div>
+        </motion.div>
 
         {/* Carousel */}
         <div className="relative">
-          <div className="card max-w-3xl mx-auto p-8 md:p-12">
-            <StarRating rating={testimonial.rating} />
-            <blockquote className="text-lg md:text-xl text-gray-700 leading-relaxed mb-8 italic">
-              &ldquo;{testimonial.content}&rdquo;
-            </blockquote>
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-primary-500 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-                {testimonial.initials}
-              </div>
-              <div>
-                <p className="font-semibold text-secondary-800">
-                  {testimonial.name}
-                </p>
-                <p className="text-sm text-gray-500">
-                  {testimonial.role}, {testimonial.company}
-                </p>
-              </div>
-            </div>
+          <div
+            className="card max-w-3xl mx-auto p-8 md:p-12 overflow-hidden"
+            onMouseEnter={() => setAutoPlay(false)}
+            onMouseLeave={() => setAutoPlay(true)}
+          >
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={current}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+              >
+                <StarRating rating={testimonial.rating} />
+                <blockquote className="text-lg md:text-xl text-gray-700 leading-relaxed mb-8 italic">
+                  &ldquo;{testimonial.content}&rdquo;
+                </blockquote>
+                <div className="flex items-center gap-4">
+                  <motion.div
+                    className="w-12 h-12 rounded-full bg-primary-500 flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                  >
+                    {testimonial.initials}
+                  </motion.div>
+                  <div>
+                    <p className="font-semibold text-secondary-800">
+                      {testimonial.name}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {testimonial.role}, {testimonial.company}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
 
-          {/* Navigation Buttons */}
+          {/* Navigation */}
           <div className="flex items-center justify-center gap-4 mt-8">
-            <button
+            <motion.button
               onClick={prev}
               aria-label="Previous testimonial"
               className="w-10 h-10 rounded-full border-2 border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white transition-all duration-200 flex items-center justify-center"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
               <svg
                 className="w-5 h-5"
@@ -136,28 +200,35 @@ const Testimonials: React.FC = () => {
                   d="M15 19l-7-7 7-7"
                 />
               </svg>
-            </button>
+            </motion.button>
 
             {/* Dot Indicators */}
             <div className="flex gap-2">
               {testimonials.map((_, i) => (
-                <button
+                <motion.button
                   key={i}
-                  onClick={() => setCurrent(i)}
+                  onClick={() => {
+                    setDirection(i > current ? 1 : -1);
+                    setCurrent(i);
+                  }}
                   aria-label={`Go to testimonial ${i + 1}`}
-                  className={`w-2.5 h-2.5 rounded-full transition-all duration-200 ${
+                  className={`h-2.5 rounded-full transition-all duration-300 ${
                     i === current
                       ? "bg-primary-500 w-6"
-                      : "bg-gray-300 hover:bg-primary-300"
+                      : "bg-gray-300 w-2.5 hover:bg-primary-300"
                   }`}
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.9 }}
                 />
               ))}
             </div>
 
-            <button
+            <motion.button
               onClick={next}
               aria-label="Next testimonial"
               className="w-10 h-10 rounded-full border-2 border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white transition-all duration-200 flex items-center justify-center"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
               <svg
                 className="w-5 h-5"
@@ -172,7 +243,7 @@ const Testimonials: React.FC = () => {
                   d="M9 5l7 7-7 7"
                 />
               </svg>
-            </button>
+            </motion.button>
           </div>
         </div>
       </div>

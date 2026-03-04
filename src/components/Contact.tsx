@@ -1,5 +1,7 @@
 import React from "react";
+import { motion } from "framer-motion";
 import ContactForm from "./ContactForm";
+import { fadeInUp, staggerContainer, viewportConfig } from "@/lib/animations";
 
 interface ContactCardProps {
   icon: React.ReactNode;
@@ -16,25 +18,39 @@ const ContactCard: React.FC<ContactCardProps> = ({
   link,
   linkLabel,
 }) => (
-  <div className="card p-6 flex flex-col items-center text-center">
-    <div className="w-14 h-14 rounded-full bg-primary-50 flex items-center justify-center mb-4">
+  <motion.div
+    className="card p-6 flex flex-col items-center text-center group"
+    variants={fadeInUp}
+    whileHover={{
+      y: -6,
+      boxShadow: "0 16px 40px rgba(31,199,199,0.16)",
+      transition: { duration: 0.3 },
+    }}
+  >
+    <motion.div
+      className="w-14 h-14 rounded-full bg-primary-50 flex items-center justify-center mb-4 group-hover:bg-primary-100 transition-colors duration-300"
+      whileHover={{ rotate: [0, -10, 10, 0], transition: { duration: 0.4 } }}
+    >
       {icon}
-    </div>
-    <h3 className="font-semibold text-secondary-800 mb-2">{title}</h3>
+    </motion.div>
+    <h3 className="font-semibold text-secondary-800 mb-2 group-hover:text-primary-600 transition-colors duration-300">
+      {title}
+    </h3>
     {details.map((d, i) => (
       <p key={i} className="text-gray-600 text-sm">
         {d}
       </p>
     ))}
     {link && linkLabel && (
-      <a
+      <motion.a
         href={link}
-        className="mt-3 text-primary-500 hover:text-primary-600 text-sm font-medium transition-colors"
+        className="mt-3 text-primary-500 hover:text-primary-600 text-sm font-medium transition-colors inline-flex items-center gap-1"
+        whileHover={{ x: 3 }}
       >
         {linkLabel}
-      </a>
+      </motion.a>
     )}
-  </div>
+  </motion.div>
 );
 
 const Contact: React.FC = () => {
@@ -114,7 +130,13 @@ const Contact: React.FC = () => {
     <section id="contact" className="section-padding bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
-        <div className="text-center mb-12 animate-fade-in">
+        <motion.div
+          className="text-center mb-12"
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportConfig}
+        >
           <span className="inline-block text-primary-500 font-semibold text-sm uppercase tracking-widest mb-3">
             Get in Touch
           </span>
@@ -123,19 +145,31 @@ const Contact: React.FC = () => {
             Have a project in mind or a question? We&apos;d love to hear from
             you. Reach out and we&apos;ll respond promptly.
           </p>
-        </div>
+        </motion.div>
 
         {/* Contact Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportConfig}
+        >
           {cards.map((card, i) => (
             <ContactCard key={i} {...card} />
           ))}
-        </div>
+        </motion.div>
 
         {/* Contact Form */}
-        <div className="max-w-2xl mx-auto">
+        <motion.div
+          className="max-w-2xl mx-auto"
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportConfig}
+        >
           <ContactForm />
-        </div>
+        </motion.div>
       </div>
     </section>
   );
