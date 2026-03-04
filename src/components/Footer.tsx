@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -59,13 +60,13 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div className="animate-slide-in-left">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center font-bold text-white text-sm">
-                SI
-              </div>
-              <span className="text-xl font-bold text-white">
-                Spire Infotech
-              </span>
+            <div className="mb-4">
+              <Image
+                src="/images/logo-white.svg"
+                alt="Spire Infotech"
+                width={180}
+                height={40}
+              />
             </div>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
               Empowering businesses with innovative software solutions. We

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- AWS logo simplified -->
+  <rect width="64" height="64" rx="8" fill="#232F3E"/>
+  <!-- AWS smile arc -->
+  <path d="M16 38 Q32 50 48 38" stroke="#FF9900" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- Arrow tips -->
+  <polygon points="14,36 16,41 20,38" fill="#FF9900"/>
+  <polygon points="50,36 48,41 44,38" fill="#FF9900"/>
+  <text x="32" y="32" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="white" text-anchor="middle">aws</text>
+</svg>

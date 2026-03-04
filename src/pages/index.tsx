@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import Image from "next/image";
 import Testimonials from "@/components/Testimonials";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -9,11 +10,14 @@ import Footer from "@/components/Footer";
 const Navbar: React.FC = () => (
   <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-      <a href="#" className="flex items-center gap-2 font-bold text-secondary-800">
-        <div className="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center text-white text-sm font-bold">
-          SI
-        </div>
-        <span>Spire Infotech</span>
+      <a href="#" className="flex items-center">
+        <Image
+          src="/images/logo.svg"
+          alt="Spire Infotech"
+          width={180}
+          height={40}
+          priority
+        />
       </a>
       <div className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
         {["About", "Services", "Projects", "Testimonials", "Contact"].map(
@@ -103,14 +107,13 @@ const About: React.FC = () => (
           </div>
         </div>
         <div className="animate-slide-in-right">
-          <div className="card-gradient p-10 text-white rounded-2xl">
-            <h3 className="text-xl font-bold mb-4">Our Mission</h3>
-            <p className="text-white/90 leading-relaxed">
-              To empower businesses through innovative technology solutions
-              that drive efficiency, productivity, and sustainable growth in
-              the digital age.
-            </p>
-          </div>
+          <Image
+            src="/images/about/team.svg"
+            alt="Spire Infotech team at work"
+            width={560}
+            height={400}
+            className="rounded-2xl w-full h-auto"
+          />
         </div>
       </div>
     </div>
@@ -122,31 +125,37 @@ const serviceItems = [
     title: "ERP Solutions",
     desc: "End-to-end enterprise resource planning systems tailored to your industry.",
     icon: "🏢",
+    image: "/images/services/erp.svg",
   },
   {
     title: "Custom Software",
     desc: "Bespoke software applications built to solve your specific business challenges.",
     icon: "⚙️",
+    image: "/images/services/enterprise.svg",
   },
   {
     title: "Web Development",
     desc: "Modern, responsive websites and web applications that engage your audience.",
     icon: "🌐",
+    image: "/images/services/web-dev.svg",
   },
   {
     title: "Mobile Apps",
     desc: "iOS and Android mobile apps that extend your business reach.",
     icon: "📱",
+    image: "/images/services/mobile-app.svg",
   },
   {
     title: "Cloud Services",
     desc: "Scalable cloud infrastructure and migration services for modern businesses.",
     icon: "☁️",
+    image: "/images/services/cloud.svg",
   },
   {
     title: "Data Analytics",
     desc: "Turn your data into actionable insights with powerful analytics dashboards.",
     icon: "📊",
+    image: "/images/services/analytics.svg",
   },
 ];
 
@@ -164,9 +173,16 @@ const Services: React.FC = () => (
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {serviceItems.map(({ title, desc, icon }) => (
+        {serviceItems.map(({ title, desc, image }) => (
           <div key={title} className="card p-6">
-            <div className="text-3xl mb-4">{icon}</div>
+            <div className="mb-4">
+              <Image
+                src={image}
+                alt={title}
+                width={64}
+                height={64}
+              />
+            </div>
             <h3 className="font-bold text-secondary-800 text-lg mb-2">
               {title}
             </h3>
@@ -238,20 +254,17 @@ const WhyChooseUs: React.FC = () => (
   </section>
 );
 
-const technologies = [
-  "React",
-  "Next.js",
-  "Node.js",
-  "Python",
-  "Java",
-  ".NET",
-  "Flutter",
-  "React Native",
-  "PostgreSQL",
-  "MongoDB",
-  "AWS",
-  "Docker",
+const technologiesWithLogos = [
+  { name: "React", image: "/images/tech/react.svg" },
+  { name: "Next.js", image: "/images/tech/nextjs.svg" },
+  { name: "Node.js", image: "/images/tech/nodejs.svg" },
+  { name: "Python", image: "/images/tech/python.svg" },
+  { name: "AWS", image: "/images/tech/aws.svg" },
+  { name: "Docker", image: "/images/tech/docker.svg" },
+  { name: "MongoDB", image: "/images/tech/mongodb.svg" },
 ];
+
+const technologiesTextOnly = ["Java", ".NET", "Flutter", "React Native", "PostgreSQL"];
 
 const Technologies: React.FC = () => (
   <section id="technologies" className="section-padding bg-white">
@@ -267,12 +280,27 @@ const Technologies: React.FC = () => (
         </p>
       </div>
       <div className="flex flex-wrap justify-center gap-4">
-        {technologies.map((tech) => (
+        {technologiesWithLogos.map(({ name, image }) => (
           <div
-            key={tech}
-            className="px-6 py-3 rounded-full border-2 border-primary-200 text-secondary-700 font-medium text-sm hover:border-primary-500 hover:text-primary-600 hover:bg-primary-50 transition-all duration-200"
+            key={name}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-primary-200 text-secondary-700 font-medium text-sm hover:border-primary-500 hover:text-primary-600 hover:bg-primary-50 transition-all duration-200"
           >
-            {tech}
+            <Image
+              src={image}
+              alt={name}
+              width={22}
+              height={22}
+              className="flex-shrink-0"
+            />
+            {name}
+          </div>
+        ))}
+        {technologiesTextOnly.map((name) => (
+          <div
+            key={name}
+            className="px-5 py-2.5 rounded-full border-2 border-primary-200 text-secondary-700 font-medium text-sm hover:border-primary-500 hover:text-primary-600 hover:bg-primary-50 transition-all duration-200"
+          >
+            {name}
           </div>
         ))}
       </div>
@@ -285,31 +313,37 @@ const projects = [
     title: "TradePro ERP",
     desc: "Comprehensive ERP system for an import/export company with inventory, billing, and compliance modules.",
     tag: "ERP",
+    image: "/images/projects/cloud-infra.svg",
   },
   {
     title: "HealthFirst HMS",
     desc: "Hospital management system for a 5-clinic chain with appointments, billing, and EMR.",
     tag: "Healthcare",
+    image: "/images/projects/erp-dashboard.svg",
   },
   {
     title: "RetailMax Platform",
     desc: "Multi-vendor e-commerce platform with real-time inventory and analytics dashboard.",
     tag: "E-Commerce",
+    image: "/images/projects/ecommerce.svg",
   },
   {
     title: "LogiTrack App",
     desc: "Mobile logistics tracking app for fleet management and real-time shipment monitoring.",
     tag: "Mobile",
+    image: "/images/projects/banking.svg",
   },
   {
     title: "FinSmart Dashboard",
     desc: "Financial analytics platform with automated reporting and compliance tracking.",
     tag: "FinTech",
+    image: "/images/projects/banking.svg",
   },
   {
     title: "EduLearn LMS",
     desc: "Learning management system for corporate training with progress tracking and certification.",
     tag: "EdTech",
+    image: "/images/projects/cloud-infra.svg",
   },
 ];
 
@@ -327,15 +361,26 @@ const Projects: React.FC = () => (
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map(({ title, desc, tag }) => (
-          <div key={title} className="card p-6">
-            <span className="inline-block text-xs font-semibold text-primary-600 bg-primary-50 px-3 py-1 rounded-full mb-3">
-              {tag}
-            </span>
-            <h3 className="font-bold text-secondary-800 text-lg mb-2">
-              {title}
-            </h3>
-            <p className="text-gray-600 text-sm leading-relaxed">{desc}</p>
+        {projects.map(({ title, desc, tag, image }) => (
+          <div key={title} className="card overflow-hidden">
+            <div className="w-full h-40 overflow-hidden bg-gray-50">
+              <Image
+                src={image}
+                alt={title}
+                width={400}
+                height={240}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="p-6">
+              <span className="inline-block text-xs font-semibold text-primary-600 bg-primary-50 px-3 py-1 rounded-full mb-3">
+                {tag}
+              </span>
+              <h3 className="font-bold text-secondary-800 text-lg mb-2">
+                {title}
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed">{desc}</p>
+            </div>
           </div>
         ))}
       </div>

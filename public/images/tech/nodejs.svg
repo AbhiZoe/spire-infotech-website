@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Node.js logo - hexagon with JS -->
+  <polygon points="32,6 52,18 52,42 32,54 12,42 12,18" fill="#339933"/>
+  <text x="32" y="38" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="white" text-anchor="middle">JS</text>
+</svg>

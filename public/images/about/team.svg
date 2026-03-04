@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 400" fill="none">
+  <defs>
+    <linearGradient id="teamGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1FC7C7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0e6262;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="560" height="400" rx="16" fill="#F0FAFA"/>
+  <!-- Office/workspace illustration -->
+  <!-- Desk -->
+  <rect x="60" y="260" width="440" height="16" rx="8" fill="#1FC7C7" opacity="0.3"/>
+  <rect x="80" y="276" width="12" height="80" rx="6" fill="#1FC7C7" opacity="0.2"/>
+  <rect x="468" y="276" width="12" height="80" rx="6" fill="#1FC7C7" opacity="0.2"/>
+  <!-- Monitor -->
+  <rect x="180" y="180" width="200" height="130" rx="8" fill="white" stroke="#1FC7C7" stroke-width="2"/>
+  <rect x="180" y="180" width="200" height="130" rx="8" fill="url(#teamGrad)" opacity="0.1"/>
+  <!-- Screen content -->
+  <rect x="196" y="196" width="120" height="8" rx="4" fill="#1FC7C7" opacity="0.5"/>
+  <rect x="196" y="212" width="160" height="6" rx="3" fill="#1FC7C7" opacity="0.3"/>
+  <rect x="196" y="226" width="140" height="6" rx="3" fill="#1FC7C7" opacity="0.25"/>
+  <rect x="196" y="240" width="100" height="6" rx="3" fill="#1FC7C7" opacity="0.35"/>
+  <!-- Chart in monitor -->
+  <rect x="196" y="256" width="15" height="30" rx="3" fill="#1FC7C7" opacity="0.6"/>
+  <rect x="216" y="268" width="15" height="18" rx="3" fill="#1FC7C7" opacity="0.4"/>
+  <rect x="236" y="252" width="15" height="34" rx="3" fill="#1FC7C7" opacity="0.7"/>
+  <rect x="256" y="260" width="15" height="26" rx="3" fill="#1FC7C7" opacity="0.5"/>
+  <rect x="276" y="248" width="15" height="38" rx="3" fill="#1FC7C7" opacity="0.8"/>
+  <!-- Monitor stand -->
+  <rect x="270" y="310" width="20" height="20" rx="4" fill="#1FC7C7" opacity="0.3"/>
+  <rect x="245" y="328" width="70" height="8" rx="4" fill="#1FC7C7" opacity="0.2"/>
+  <!-- Laptop -->
+  <rect x="80" y="220" width="130" height="90" rx="6" fill="white" stroke="#1FC7C7" stroke-width="2"/>
+  <rect x="80" y="220" width="130" height="90" rx="6" fill="url(#teamGrad)" opacity="0.08"/>
+  <rect x="60" y="308" width="170" height="10" rx="5" fill="#1FC7C7" opacity="0.2"/>
+  <!-- Laptop screen content -->
+  <rect x="94" y="233" width="70" height="6" rx="3" fill="#1FC7C7" opacity="0.4"/>
+  <rect x="94" y="247" width="100" height="5" rx="2.5" fill="#1FC7C7" opacity="0.25"/>
+  <rect x="94" y="259" width="80" height="5" rx="2.5" fill="#1FC7C7" opacity="0.3"/>
+  <rect x="94" y="271" width="60" height="5" rx="2.5" fill="#1FC7C7" opacity="0.25"/>
+  <!-- People (silhouettes) -->
+  <!-- Person 1 -->
+  <circle cx="130" cy="165" r="24" fill="url(#teamGrad)" opacity="0.8"/>
+  <ellipse cx="130" cy="212" rx="18" ry="12" fill="url(#teamGrad)" opacity="0.5"/>
+  <!-- Person 2 -->
+  <circle cx="280" cy="140" r="28" fill="url(#teamGrad)" opacity="0.9"/>
+  <ellipse cx="280" cy="192" rx="22" ry="14" fill="url(#teamGrad)" opacity="0.6"/>
+  <!-- Person 3 -->
+  <circle cx="430" cy="160" r="24" fill="url(#teamGrad)" opacity="0.8"/>
+  <ellipse cx="430" cy="208" rx="18" ry="12" fill="url(#teamGrad)" opacity="0.5"/>
+  <!-- Decorative elements -->
+  <circle cx="500" cy="60" r="40" fill="#1FC7C7" opacity="0.08"/>
+  <circle cx="60" cy="80" r="30" fill="#1FC7C7" opacity="0.06"/>
+  <!-- Stats overlay -->
+  <rect x="380" y="200" width="130" height="80" rx="10" fill="white" stroke="#1FC7C7" stroke-width="1.5"/>
+  <text x="445" y="228" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="700" fill="#1FC7C7" text-anchor="middle">200+</text>
+  <text x="445" y="246" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">Projects Done</text>
+  <rect x="395" y="255" width="40" height="16" rx="8" fill="#1FC7C7" opacity="0.15"/>
+  <text x="415" y="267" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#1FC7C7" text-anchor="middle">&#9650; 30%</text>
+</svg>

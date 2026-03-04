@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 48" fill="none">
+  <!-- Icon mark -->
+  <rect x="0" y="4" width="40" height="40" rx="10" fill="#1FC7C7"/>
+  <!-- Spire spike / upward arrow shape -->
+  <polygon points="20,10 32,34 20,28 8,34" fill="white" opacity="0.95"/>
+  <!-- Company name -->
+  <text x="52" y="19" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="700" fill="white" letter-spacing="0.5">SPIRE</text>
+  <text x="52" y="36" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="400" fill="#1FC7C7" letter-spacing="2">INFOTECH</text>
+</svg>
