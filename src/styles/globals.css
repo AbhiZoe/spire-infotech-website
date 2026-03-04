@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+/* ===================== BASE STYLES ===================== */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  @apply bg-white text-secondary-800;
+}
+
+/* ===================== ANIMATIONS ===================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-slow {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* ===================== UTILITY CLASSES ===================== */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.6s ease-out;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+/* ===================== BUTTON STYLES ===================== */
+.btn-primary {
+  @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold text-white bg-primary-500 hover:bg-primary-600 transition-all duration-300 shadow-lg hover:shadow-primary-500/30 hover:shadow-xl transform hover:-translate-y-0.5;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold text-primary-500 border-2 border-primary-500 hover:bg-primary-500 hover:text-white transition-all duration-300 transform hover:-translate-y-0.5;
+}
+
+.btn-ghost {
+  @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold text-white border-2 border-white/30 hover:bg-white/10 transition-all duration-300;
+}
+
+/* ===================== CARD STYLES ===================== */
+.card {
+  @apply bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1;
+}
+
+.card-dark {
+  @apply bg-secondary-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1;
+}
+
+.card-gradient {
+  @apply rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1;
+  background: linear-gradient(135deg, #1fc7c7 0%, #138585 100%);
+}
+
+/* ===================== SECTION STYLES ===================== */
+.section-padding {
+  @apply py-16 md:py-24;
+}
+
+.section-title {
+  @apply text-3xl md:text-4xl lg:text-5xl font-bold text-secondary-800 mb-4;
+}
+
+.section-subtitle {
+  @apply text-lg text-gray-600 max-w-2xl mx-auto;
+}
+
+/* ===================== GRADIENT STYLES ===================== */
+.gradient-primary {
+  background: linear-gradient(135deg, #1fc7c7 0%, #0e6262 100%);
+}
+
+.gradient-dark {
+  background: linear-gradient(135deg, #1f2a30 0%, #121a1e 100%);
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(135deg, #1fc7c7 0%, #0e6262 100%);
+}
+
+/* ===================== FORM STYLES ===================== */
+.form-input {
+  @apply w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all duration-200 text-secondary-800 placeholder-gray-400;
+}
+
+.form-label {
+  @apply block text-sm font-medium text-secondary-700 mb-1.5;
+}
+
+/* ===================== SCROLLBAR STYLES ===================== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary-400 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary-500;
+}
+
+/* ===================== SELECTION STYLES ===================== */
+::selection {
+  @apply bg-primary-200 text-secondary-800;
+}
