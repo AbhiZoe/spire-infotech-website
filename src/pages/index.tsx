@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Head from "next/head";
+import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Testimonials from "@/components/Testimonials";
@@ -496,6 +497,15 @@ const About: React.FC = () => {
                 animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
                 transition={{ duration: 12, repeat: Infinity }}
               />
+              <div className="relative z-10 mb-6 rounded-xl overflow-hidden">
+                <Image
+                  src="/images/about/team.svg"
+                  alt="Spire Infotech team"
+                  width={480}
+                  height={320}
+                  className="w-full h-auto object-cover rounded-xl"
+                />
+              </div>
               <h3 className="text-xl font-bold mb-4 relative z-10">
                 Our Mission
               </h3>
@@ -515,34 +525,34 @@ const About: React.FC = () => {
 /* ── Services section ── */
 const serviceItems = [
   {
-    title: "ERP Solutions",
-    desc: "End-to-end enterprise resource planning systems tailored to your industry.",
-    icon: "🏢",
-  },
-  {
-    title: "Custom Software",
-    desc: "Bespoke software applications built to solve your specific business challenges.",
-    icon: "⚙️",
-  },
-  {
     title: "Web Development",
     desc: "Modern, responsive websites and web applications that engage your audience.",
-    icon: "🌐",
+    icon: "/images/services/web-development.svg",
   },
   {
     title: "Mobile Apps",
     desc: "iOS and Android mobile apps that extend your business reach.",
-    icon: "📱",
+    icon: "/images/services/mobile-app.svg",
   },
   {
-    title: "Cloud Services",
+    title: "IT Consulting",
+    desc: "Strategic technology consulting to align IT with your business objectives.",
+    icon: "/images/services/it-consulting.svg",
+  },
+  {
+    title: "Cloud Solutions",
     desc: "Scalable cloud infrastructure and migration services for modern businesses.",
-    icon: "☁️",
+    icon: "/images/services/cloud-solutions.svg",
   },
   {
-    title: "Data Analytics",
-    desc: "Turn your data into actionable insights with powerful analytics dashboards.",
-    icon: "📊",
+    title: "AI & Automation",
+    desc: "Intelligent automation and AI-driven solutions to boost operational efficiency.",
+    icon: "/images/services/ai-automation.svg",
+  },
+  {
+    title: "Enterprise Software",
+    desc: "Bespoke enterprise software applications built to solve your specific business challenges.",
+    icon: "/images/services/enterprise-software.svg",
   },
 ];
 
@@ -575,7 +585,7 @@ const ServiceCard: React.FC<{
       whileHover={{ scale: 1.2, rotate: 10 }}
       transition={{ duration: 0.25 }}
     >
-      {icon}
+      <Image src={icon} alt={title} width={48} height={48} className="w-12 h-12 object-contain" />
     </motion.div>
     <h3 className="font-bold text-gray-100 text-lg mb-2 relative z-10 group-hover:text-primary-400 transition-colors duration-300">
       {title}
@@ -682,18 +692,18 @@ const WhyChooseUs: React.FC = () => (
 
 /* ── Technologies section ── */
 const technologies = [
-  "React",
-  "Next.js",
-  "Node.js",
-  "Python",
-  "Java",
-  ".NET",
-  "Flutter",
-  "React Native",
-  "PostgreSQL",
-  "MongoDB",
-  "AWS",
-  "Docker",
+  { name: "React", logo: "/images/tech/react.svg" },
+  { name: "Next.js", logo: "/images/tech/nextjs.svg" },
+  { name: "Node.js", logo: "/images/tech/nodejs.svg" },
+  { name: "Python", logo: "/images/tech/python.svg" },
+  { name: "AWS", logo: "/images/tech/aws.svg" },
+  { name: "Docker", logo: "/images/tech/docker.svg" },
+  { name: "MongoDB", logo: "/images/tech/mongodb.svg" },
+  { name: "Java" },
+  { name: ".NET" },
+  { name: "Flutter" },
+  { name: "React Native" },
+  { name: "PostgreSQL" },
 ];
 
 const Technologies: React.FC = () => (
@@ -713,9 +723,9 @@ const Technologies: React.FC = () => (
       >
         {technologies.map((tech) => (
           <motion.div
-            key={tech}
+            key={tech.name}
             variants={blurFade}
-            className="tech-badge"
+            className="tech-badge flex items-center gap-2"
             whileHover={{
               scale: 1.1,
               y: -4,
@@ -723,7 +733,16 @@ const Technologies: React.FC = () => (
             }}
             whileTap={{ scale: 0.96 }}
           >
-            {tech}
+            {tech.logo && (
+              <Image
+                src={tech.logo}
+                alt={`${tech.name} logo`}
+                width={20}
+                height={20}
+                className="w-5 h-5 object-contain"
+              />
+            )}
+            {tech.name}
           </motion.div>
         ))}
       </motion.div>
@@ -734,46 +753,49 @@ const Technologies: React.FC = () => (
 /* ── Projects section ── */
 const projects = [
   {
-    title: "TradePro ERP",
-    desc: "Comprehensive ERP system for an import/export company with inventory, billing, and compliance modules.",
-    tag: "ERP",
-    accent: "from-blue-500/20 to-blue-600/10",
-    border: "border-blue-500/20",
-  },
-  {
-    title: "HealthFirst HMS",
-    desc: "Hospital management system for a 5-clinic chain with appointments, billing, and EMR.",
-    tag: "Healthcare",
-    accent: "from-green-500/20 to-green-600/10",
-    border: "border-green-500/20",
-  },
-  {
     title: "RetailMax Platform",
     desc: "Multi-vendor e-commerce platform with real-time inventory and analytics dashboard.",
     tag: "E-Commerce",
     accent: "from-purple-500/20 to-purple-600/10",
     border: "border-purple-500/20",
-  },
-  {
-    title: "LogiTrack App",
-    desc: "Mobile logistics tracking app for fleet management and real-time shipment monitoring.",
-    tag: "Mobile",
-    accent: "from-orange-500/20 to-orange-600/10",
-    border: "border-orange-500/20",
+    image: "/images/projects/ecommerce-platform.svg",
   },
   {
     title: "FinSmart Dashboard",
-    desc: "Financial analytics platform with automated reporting and compliance tracking.",
+    desc: "Mobile banking application with secure transactions, account management, and financial analytics.",
     tag: "FinTech",
     accent: "from-yellow-500/20 to-yellow-600/10",
     border: "border-yellow-500/20",
+    image: "/images/projects/mobile-banking.svg",
+  },
+  {
+    title: "CloudOps Suite",
+    desc: "Cloud infrastructure management platform with automated scaling, monitoring, and cost optimization.",
+    tag: "Cloud",
+    accent: "from-blue-500/20 to-blue-600/10",
+    border: "border-blue-500/20",
+    image: "/images/projects/cloud-infrastructure.svg",
+  },
+  {
+    title: "TradePro ERP",
+    desc: "Comprehensive ERP system for an import/export company with inventory, billing, and compliance modules.",
+    tag: "ERP",
+    accent: "from-green-500/20 to-green-600/10",
+    border: "border-green-500/20",
+  },
+  {
+    title: "HealthFirst HMS",
+    desc: "Hospital management system for a 5-clinic chain with appointments, billing, and EMR.",
+    tag: "Healthcare",
+    accent: "from-teal-500/20 to-teal-600/10",
+    border: "border-teal-500/20",
   },
   {
     title: "EduLearn LMS",
     desc: "Learning management system for corporate training with progress tracking and certification.",
     tag: "EdTech",
-    accent: "from-teal-500/20 to-teal-600/10",
-    border: "border-teal-500/20",
+    accent: "from-orange-500/20 to-orange-600/10",
+    border: "border-orange-500/20",
   },
 ];
 
@@ -783,8 +805,9 @@ const ProjectCard: React.FC<{
   tag: string;
   accent: string;
   border: string;
+  image?: string;
   index: number;
-}> = ({ title, desc, tag, accent, border, index }) => (
+}> = ({ title, desc, tag, accent, border, image, index }) => (
   <motion.div
     className={`card p-6 relative overflow-hidden group bg-gradient-to-br ${accent} border ${border}`}
     variants={fadeInUp}
@@ -798,6 +821,17 @@ const ProjectCard: React.FC<{
       transition: { duration: 0.3 },
     }}
   >
+    {image && (
+      <div className="mb-4 rounded-lg overflow-hidden">
+        <Image
+          src={image}
+          alt={title}
+          width={400}
+          height={200}
+          className="w-full h-40 object-cover rounded-lg"
+        />
+      </div>
+    )}
     <motion.span
       className="project-tag-dark inline-block mb-3"
       whileHover={{ scale: 1.05 }}
@@ -841,7 +875,7 @@ const Projects: React.FC = () => (
         subtitle="A selection of the impactful solutions we've built for our clients."
       />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map(({ title, desc, tag, accent, border }, i) => (
+        {projects.map(({ title, desc, tag, accent, border, image }, i) => (
           <ProjectCard
             key={title}
             title={title}
@@ -849,6 +883,7 @@ const Projects: React.FC = () => (
             tag={tag}
             accent={accent}
             border={border}
+            image={image}
             index={i}
           />
         ))}
