@@ -28,14 +28,18 @@
 }
 
 .hero-headline {
-  font-size: clamp(1.75rem, 6vw, 4rem);
+  font-size: 4rem;
   font-weight: 900;
   color: #f0f4f8;
-  line-height: 1.2;
+  line-height: 1.1;
   margin: 0;
   letter-spacing: -0.02em;
-  will-change: transform, opacity, filter;
-  transform-origin: center center;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  backface-visibility: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 /* ===================== WHY CHOOSE US IMAGES ===================== */
@@ -74,5 +78,18 @@
 
   .why-card-image img {
     transition: none;
+  }
+}
+
+/* Responsive font-size starting point */
+@media (max-width: 768px) {
+  .hero-headline {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-headline {
+    font-size: 1.5rem;
   }
 }
