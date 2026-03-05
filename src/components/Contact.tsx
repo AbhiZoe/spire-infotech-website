@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import ContactForm from "./ContactForm";
-import { fadeInUp, staggerContainer, viewportConfig } from "@/lib/animations";
+import { slideUpBlurFade, staggerContainer, viewportConfig } from "@/lib/animations";
 
 interface ContactCardProps {
   icon: React.ReactNode;
@@ -20,7 +20,7 @@ const ContactCard: React.FC<ContactCardProps> = ({
 }) => (
     <motion.div
       className="card p-6 flex flex-col items-center text-center group"
-      variants={fadeInUp}
+      variants={slideUpBlurFade}
       whileHover={{
         y: -6,
         boxShadow: "0 16px 40px rgba(31,199,199,0.16)",
@@ -132,7 +132,7 @@ const Contact: React.FC = () => {
         {/* Heading */}
         <motion.div
           className="text-center mb-12"
-          variants={fadeInUp}
+          variants={slideUpBlurFade}
           initial="hidden"
           whileInView="visible"
           viewport={viewportConfig}
@@ -163,7 +163,7 @@ const Contact: React.FC = () => {
         {/* Contact Form */}
         <motion.div
           className="max-w-2xl mx-auto"
-          variants={fadeInUp}
+          variants={slideUpBlurFade}
           initial="hidden"
           whileInView="visible"
           viewport={viewportConfig}

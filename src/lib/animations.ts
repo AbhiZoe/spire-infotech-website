@@ -123,3 +123,72 @@ export const staggerContainerSlow: Variants = {
     },
   },
 };
+
+// About: fade in from left, translateX(-50px) → 0
+export const fadeInLeftStrong: Variants = {
+  hidden: { opacity: 0, x: -50 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, ease: "easeInOut" as const },
+  },
+};
+
+// Services: fade in from right + scale up
+export const fadeInRightScale: Variants = {
+  hidden: { opacity: 0, x: 50, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    transition: { duration: 0.7, ease: "easeInOut" as const },
+  },
+};
+
+// Projects: bounce in + rotate
+export const bounceRotateIn: Variants = {
+  hidden: { opacity: 0, scale: 0.8, rotate: -5 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    rotate: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.175, 0.885, 0.32, 1.275] as const,
+    },
+  },
+};
+
+// Contact: slide up + blur fade
+export const slideUpBlurFade: Variants = {
+  hidden: { opacity: 0, y: 50, filter: "blur(8px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.7, ease: "easeInOut" as const },
+  },
+};
+
+// WhyChooseUs: flip in from top (rotateX)
+export const FLIP_PERSPECTIVE = "800px";
+
+export const flipInFromTop: Variants = {
+  hidden: { opacity: 0, rotateX: 90 },
+  visible: {
+    opacity: 1,
+    rotateX: 0,
+    transition: { duration: 0.7, ease: "easeInOut" as const },
+  },
+};
+
+// Technologies: stagger reveal from bottom with scale
+export const staggerRevealBottom: Variants = {
+  hidden: { opacity: 0, y: 30, scale: 0.85 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.5, ease: "easeInOut" as const },
+  },
+};

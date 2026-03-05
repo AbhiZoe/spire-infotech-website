@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { fadeInUp, viewportConfig } from "@/lib/animations";
+import { fadeInRightScale, staggerContainerFast, viewportConfig } from "@/lib/animations";
 import SectionTitle from "./SectionTitle";
 
 const serviceItems = [
@@ -59,7 +59,7 @@ const ServiceCard: React.FC<{
 }> = ({ title, desc, image, imageAlt, index }) => (
   <motion.div
     className="card card-glow p-6 relative overflow-hidden group"
-    variants={fadeInUp}
+    variants={fadeInRightScale}
     initial="hidden"
     whileInView="visible"
     viewport={viewportConfig}
@@ -102,7 +102,14 @@ const ServiceCard: React.FC<{
 );
 
 const Services: React.FC = () => (
-  <section id="services" className="section-padding section-dark-alt">
+  <motion.section
+    id="services"
+    className="section-padding section-dark-alt"
+    variants={staggerContainerFast}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true, margin: "-60px" }}
+  >
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <SectionTitle
         label="What We Do"
@@ -123,7 +130,7 @@ const Services: React.FC = () => (
         ))}
       </div>
     </div>
-  </section>
+  </motion.section>
 );
 
 export default Services;
