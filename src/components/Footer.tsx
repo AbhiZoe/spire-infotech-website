@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { fadeInUp, fadeInLeft, staggerContainer, viewportConfig } from "@/lib/animations";
 
@@ -71,9 +72,13 @@ const Footer: React.FC = () => {
               className="flex items-center gap-2 mb-4"
               whileHover={{ x: 3 }}
             >
-              <div className="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center font-bold text-white text-sm shadow-md">
-                SI
-              </div>
+              <Image
+                src="/images/logo/Spire Info Tech-Logo.png"
+                alt="Spire Infotech"
+                width={40}
+                height={40}
+                className="h-[36px] w-auto object-contain flex-shrink-0"
+              />
               <span className="text-xl font-bold text-white">
                 Spire Infotech
               </span>

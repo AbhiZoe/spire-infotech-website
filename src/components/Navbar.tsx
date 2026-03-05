@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import MobileMenu from "./MobileMenu";
 
 const navLinks = [
@@ -16,41 +17,14 @@ const SpireLogo: React.FC = () => (
     className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 rounded-lg"
     aria-label="Spire Infotech – Home"
   >
-    {/* Icon mark */}
-    <div className="relative w-10 h-10 rounded-xl bg-primary-500 flex items-center justify-center shadow-lg shadow-primary-500/30 transition-all duration-300 group-hover:scale-110 group-hover:shadow-primary-500/50 group-hover:shadow-xl flex-shrink-0">
-      <svg
-        width="22"
-        height="22"
-        viewBox="0 0 22 22"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-      >
-        <path
-          d="M4 6 L11 2 L18 6 L18 16 L11 20 L4 16 Z"
-          stroke="white"
-          strokeWidth="1.8"
-          strokeLinejoin="round"
-          fill="none"
-        />
-        <path
-          d="M11 2 L11 20 M4 6 L18 16 M18 6 L4 16"
-          stroke="white"
-          strokeWidth="1.2"
-          strokeLinecap="round"
-          opacity="0.6"
-        />
-      </svg>
-    </div>
-    {/* Text */}
-    <div className="flex flex-col leading-tight">
-      <span className="text-white font-bold text-lg tracking-tight transition-colors duration-200 group-hover:text-primary-400">
-        Spire
-      </span>
-      <span className="text-primary-400 font-semibold text-xs tracking-widest uppercase transition-colors duration-200 group-hover:text-primary-300">
-        Infotech
-      </span>
-    </div>
+    <Image
+      src="/images/logo/Spire Info Tech-Text and Logo.png"
+      alt="Spire Infotech"
+      width={150}
+      height={50}
+      priority
+      className="h-[50px] w-auto object-contain transition-opacity duration-200 group-hover:opacity-80"
+    />
   </a>
 );
 

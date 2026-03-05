@@ -133,6 +133,11 @@ const TYPEWRITER_START_DELAY_MS = 600;
  */
 const HERO_TYPING_DONE_S = 3.5;
 
+/** Scroll distance (px) over which the quote zooms from 1× to 5× */
+const QUOTE_ZOOM_SCROLL_RANGE = 500;
+/** Scroll distance (px) over which the quote fades from fully visible to hidden */
+const QUOTE_FADE_SCROLL_RANGE = 350;
+
 interface TypewriterTextProps {
   text: string;
   charDelay?: number;
@@ -237,9 +242,19 @@ const Hero: React.FC = () => {
     target: ref,
     offset: ["start start", "end start"],
   });
+  const { scrollY } = useScroll();
   const handleLine1Complete = useCallback(() => setLine2Started(true), []);
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+  // Epic quote zoom effect: scale 1→5, opacity 1→0, blur 0→8px
+  const quoteScale = useTransform(scrollY, [0, QUOTE_ZOOM_SCROLL_RANGE], [1, 5]);
+  const quoteOpacity = useTransform(scrollY, [0, QUOTE_FADE_SCROLL_RANGE], [1, 0]);
+  const quoteBlur = useTransform(
+    scrollY,
+    [0, QUOTE_ZOOM_SCROLL_RANGE],
+    ["blur(0px)", "blur(8px)"]
+  );
 
   return (
     <section
@@ -281,35 +296,46 @@ const Hero: React.FC = () => {
           Innovative Software Solutions
         </motion.span>
 
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-          <motion.span
-            className="block text-white"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <TypewriterText
-              text="Empowering Businesses"
-              charDelay={CHAR_DELAY_MS}
-              delay={TYPEWRITER_START_DELAY_MS}
-              showCursor={!line2Started}
-              onComplete={handleLine1Complete}
-            />
-          </motion.span>
-          <motion.span
-            className="block bg-gradient-to-r from-primary-400 to-primary-300 bg-clip-text text-transparent"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: line2Started ? 1 : 0, y: line2Started ? 0 : 20 }}
-            transition={{ duration: 0.3 }}
-          >
-            <TypewriterText
-              text="with Smart Technology"
-              charDelay={CHAR_DELAY_MS}
-              delay={0}
-              showCursor={line2Started}
-            />
-          </motion.span>
-        </h1>
+        {/* Epic quote zoom wrapper */}
+        <motion.div
+          className="zoom-text-trigger mb-6"
+          style={{
+            scale: quoteScale,
+            opacity: quoteOpacity,
+            filter: quoteBlur,
+            transformOrigin: "center center",
+          }}
+        >
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight animate-glow-pulse">
+            <motion.span
+              className="block text-white"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <TypewriterText
+                text="Empowering Businesses"
+                charDelay={CHAR_DELAY_MS}
+                delay={TYPEWRITER_START_DELAY_MS}
+                showCursor={!line2Started}
+                onComplete={handleLine1Complete}
+              />
+            </motion.span>
+            <motion.span
+              className="block bg-gradient-to-r from-primary-400 to-primary-300 bg-clip-text text-transparent"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: line2Started ? 1 : 0, y: line2Started ? 0 : 20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <TypewriterText
+                text="with Smart Technology"
+                charDelay={CHAR_DELAY_MS}
+                delay={0}
+                showCursor={line2Started}
+              />
+            </motion.span>
+          </h1>
+        </motion.div>
 
         <motion.p
           className="text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
@@ -396,7 +422,14 @@ const AnimatedCounter: React.FC<{ value: string; label: string }> = ({
 /* ── About section ── */
 const About: React.FC = () => {
   return (
-    <section id="about" className="section-padding section-dark overflow-hidden">
+    <motion.section
+      id="about"
+      className="section-padding section-dark overflow-hidden"
+      variants={blurFade}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-60px" }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
@@ -475,7 +508,7 @@ const About: React.FC = () => {
           </motion.div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

@@ -16,8 +16,8 @@ export default function Document() {
           property="og:site_name"
           content="Spire Infotech"
         />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/favicon.ico" />
+        <link rel="icon" href="/images/logo/Spire Info Tech-Logo.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/images/logo/Spire Info Tech-Logo.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
