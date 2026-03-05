@@ -122,9 +122,20 @@ const ParticleCanvas: React.FC = () => {
 };
 
 /* ── Typewriter text component ── */
+/** Delay between each typed character in milliseconds */
+const CHAR_DELAY_MS = 65;
+/** Delay before the typewriter starts (allows entry animation to settle) */
+const TYPEWRITER_START_DELAY_MS = 600;
+/**
+ * Approximate time (seconds) for both hero lines to finish typing:
+ * start_delay + line1_chars * char_delay + line2_chars * char_delay
+ * ≈ 0.6s + 21*0.065s + 21*0.065s ≈ 3.3s → 3.5s with buffer
+ */
+const HERO_TYPING_DONE_S = 3.5;
+
 interface TypewriterTextProps {
   text: string;
-  speed?: number;
+  charDelay?: number;
   delay?: number;
   className?: string;
   showCursor?: boolean;
@@ -133,7 +144,7 @@ interface TypewriterTextProps {
 
 const TypewriterText: React.FC<TypewriterTextProps> = ({
   text,
-  speed = 60,
+  charDelay = CHAR_DELAY_MS,
   delay = 0,
   className = "",
   showCursor = true,
@@ -148,20 +159,25 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
     setDisplayed("");
     setDone(false);
     let i = 0;
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+
     const startTimeout = setTimeout(() => {
-      const interval = setInterval(() => {
+      intervalId = setInterval(() => {
         i++;
         setDisplayed(text.slice(0, i));
         if (i >= text.length) {
-          clearInterval(interval);
+          if (intervalId) clearInterval(intervalId);
           setDone(true);
           onCompleteRef.current?.();
         }
-      }, speed);
-      return () => clearInterval(interval);
+      }, charDelay);
     }, delay);
-    return () => clearTimeout(startTimeout);
-  }, [text, speed, delay]);
+
+    return () => {
+      clearTimeout(startTimeout);
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [text, charDelay, delay]);
 
   return (
     <span className={className}>
@@ -274,8 +290,8 @@ const Hero: React.FC = () => {
           >
             <TypewriterText
               text="Empowering Businesses"
-              speed={65}
-              delay={600}
+              charDelay={CHAR_DELAY_MS}
+              delay={TYPEWRITER_START_DELAY_MS}
               showCursor={!line2Started}
               onComplete={handleLine1Complete}
             />
@@ -288,7 +304,7 @@ const Hero: React.FC = () => {
           >
             <TypewriterText
               text="with Smart Technology"
-              speed={65}
+              charDelay={CHAR_DELAY_MS}
               delay={0}
               showCursor={line2Started}
             />
@@ -299,7 +315,7 @@ const Hero: React.FC = () => {
           className="text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
           initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 0.7, delay: 3.5 }}
+          transition={{ duration: 0.7, delay: HERO_TYPING_DONE_S }}
         >
           We build custom ERP systems, web applications, and mobile solutions
           that transform how you work and accelerate your growth.
@@ -309,7 +325,7 @@ const Hero: React.FC = () => {
           className="flex flex-col sm:flex-row gap-4 justify-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 3.8 }}
+          transition={{ duration: 0.6, delay: HERO_TYPING_DONE_S + 0.3 }}
         >
           <motion.a
             href="#contact"
