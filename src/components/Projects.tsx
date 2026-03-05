@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { bounceRotateIn, viewportConfig } from "@/lib/animations";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionTitle from "./SectionTitle";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
@@ -72,12 +75,7 @@ const ProjectCard: React.FC<{
   index: number;
 }> = ({ title, desc, tag, accent, border, image, imageAlt, index }) => (
   <motion.div
-    className={`card p-6 relative overflow-hidden group bg-gradient-to-br ${accent} border ${border}`}
-    variants={bounceRotateIn}
-    initial="hidden"
-    whileInView="visible"
-    viewport={viewportConfig}
-    transition={{ delay: index * 0.08 }}
+    className={`project-card card p-6 relative overflow-hidden group bg-gradient-to-br ${accent} border ${border}`}
     whileHover={{
       y: -8,
       scale: 1.02,
@@ -130,31 +128,59 @@ const ProjectCard: React.FC<{
   </motion.div>
 );
 
-const Projects: React.FC = () => (
-  <section id="projects" className="section-padding section-dark-alt">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <SectionTitle
-        label="Portfolio"
-        title="Our Projects"
-        subtitle="A selection of the impactful solutions we've built for our clients."
-      />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map(({ title, desc, tag, accent, border, image, imageAlt }, i) => (
-          <ProjectCard
-            key={title}
-            title={title}
-            desc={desc}
-            tag={tag}
-            accent={accent}
-            border={border}
-            image={image}
-            imageAlt={imageAlt}
-            index={i}
-          />
-        ))}
+const Projects: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".project-card",
+        { scale: 0.8, rotation: -5, opacity: 0 },
+        {
+          scale: 1,
+          rotation: 0,
+          opacity: 1,
+          duration: 0.6,
+          ease: "back.out(1.4)",
+          stagger: 0.08,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section ref={sectionRef} id="projects" className="section-padding section-dark-alt">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionTitle
+          label="Portfolio"
+          title="Our Projects"
+          subtitle="A selection of the impactful solutions we've built for our clients."
+        />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map(({ title, desc, tag, accent, border, image, imageAlt }, i) => (
+            <ProjectCard
+              key={title}
+              title={title}
+              desc={desc}
+              tag={tag}
+              accent={accent}
+              border={border}
+              image={image}
+              imageAlt={imageAlt}
+              index={i}
+            />
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default Projects;
