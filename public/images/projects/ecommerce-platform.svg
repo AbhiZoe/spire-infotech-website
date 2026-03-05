@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" fill="none">
+  <rect width="320" height="200" fill="#0F1419"/>
+  <!-- Browser chrome -->
+  <rect x="8" y="8" width="304" height="184" rx="8" stroke="#1fc7c7" stroke-width="1.5" fill="#1F2A30"/>
+  <rect x="8" y="8" width="304" height="28" rx="8" fill="#162029"/>
+  <circle cx="24" cy="22" r="4" fill="#1fc7c7" opacity="0.5"/>
+  <circle cx="36" cy="22" r="4" fill="#1fc7c7" opacity="0.3"/>
+  <circle cx="48" cy="22" r="4" fill="#1fc7c7" opacity="0.2"/>
+  <rect x="60" y="16" width="180" height="12" rx="6" fill="#1fc7c7" opacity="0.1"/>
+  <!-- Nav bar -->
+  <rect x="16" y="44" width="288" height="24" rx="4" fill="#162029"/>
+  <rect x="24" y="50" width="40" height="10" rx="3" fill="#1fc7c7" opacity="0.6"/>
+  <rect x="200" y="50" width="30" height="10" rx="3" fill="#1fc7c7" opacity="0.3"/>
+  <rect x="240" y="50" width="30" height="10" rx="3" fill="#1fc7c7" opacity="0.3"/>
+  <rect x="280" y="50" width="16" height="10" rx="3" fill="#1fc7c7" opacity="0.7"/>
+  <!-- Product grid -->
+  <rect x="16" y="76" width="88" height="100" rx="6" fill="#162029" stroke="#1fc7c7" stroke-width="0.5" stroke-opacity="0.3"/>
+  <rect x="22" y="82" width="76" height="52" rx="4" fill="#1fc7c7" opacity="0.1"/>
+  <rect x="22" y="140" width="50" height="6" rx="2" fill="#1fc7c7" opacity="0.5"/>
+  <rect x="22" y="152" width="36" height="5" rx="2" fill="#1fc7c7" opacity="0.3"/>
+  <rect x="22" y="162" width="60" height="8" rx="2" fill="#1fc7c7" opacity="0.4"/>
+  <rect x="116" y="76" width="88" height="100" rx="6" fill="#162029" stroke="#1fc7c7" stroke-width="0.5" stroke-opacity="0.3"/>
+  <rect x="122" y="82" width="76" height="52" rx="4" fill="#1fc7c7" opacity="0.15"/>
+  <rect x="122" y="140" width="50" height="6" rx="2" fill="#1fc7c7" opacity="0.5"/>
+  <rect x="122" y="152" width="36" height="5" rx="2" fill="#1fc7c7" opacity="0.3"/>
+  <rect x="122" y="162" width="60" height="8" rx="2" fill="#1fc7c7" opacity="0.4"/>
+  <rect x="216" y="76" width="88" height="100" rx="6" fill="#162029" stroke="#1fc7c7" stroke-width="0.5" stroke-opacity="0.3"/>
+  <rect x="222" y="82" width="76" height="52" rx="4" fill="#1fc7c7" opacity="0.08"/>
+  <rect x="222" y="140" width="50" height="6" rx="2" fill="#1fc7c7" opacity="0.5"/>
+  <rect x="222" y="152" width="36" height="5" rx="2" fill="#1fc7c7" opacity="0.3"/>
+  <rect x="222" y="162" width="60" height="8" rx="2" fill="#1fc7c7" opacity="0.4"/>
+</svg>
