@@ -102,11 +102,11 @@ export default function PrivacyPolicy() {
       </Head>
 
       {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-secondary-900/95 backdrop-blur-md border-b border-white/10 shadow-2xl shadow-black/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
           <Link
             href="/"
-            className="flex items-center gap-2 font-bold text-secondary-800"
+            className="flex items-center gap-2 font-bold text-white"
           >
             <div className="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center text-white text-sm font-bold">
               SI
@@ -115,7 +115,7 @@ export default function PrivacyPolicy() {
           </Link>
           <Link
             href="/"
-            className="text-sm text-primary-500 hover:text-primary-600 font-medium transition-colors"
+            className="text-sm text-primary-400 hover:text-primary-300 font-medium transition-colors"
           >
             ← Back to Home
           </Link>
@@ -139,7 +139,7 @@ export default function PrivacyPolicy() {
         {/* Content */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="prose max-w-none">
-            <p className="text-gray-600 leading-relaxed mb-8 text-lg">
+            <p className="text-gray-400 leading-relaxed mb-8 text-lg">
               At Spire Infotech (&quot;we&quot;, &quot;our&quot;, or
               &quot;us&quot;), we are committed to protecting your privacy. This
               Privacy Policy explains how we collect, use, disclose, and
@@ -149,11 +149,11 @@ export default function PrivacyPolicy() {
 
             {sections.map((section) => (
               <div key={section.title} className="mb-8">
-                <h2 className="text-xl font-bold text-secondary-800 mb-4 pb-2 border-b border-gray-200">
+                <h2 className="text-xl font-bold text-gray-100 mb-4 pb-2 border-b border-white/10">
                   {section.title}
                 </h2>
                 {section.content.map((para, i) => (
-                  <p key={i} className="text-gray-600 leading-relaxed mb-3">
+                  <p key={i} className="text-gray-400 leading-relaxed mb-3">
                     {para}
                   </p>
                 ))}

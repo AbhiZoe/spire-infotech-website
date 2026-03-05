@@ -118,7 +118,7 @@ const Testimonials: React.FC = () => {
   const testimonial = testimonials[current];
 
   return (
-    <section id="testimonials" className="section-padding bg-gray-50">
+    <section id="testimonials" className="section-padding section-dark">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <motion.div
@@ -128,11 +128,11 @@ const Testimonials: React.FC = () => {
           whileInView="visible"
           viewport={viewportConfig}
         >
-          <span className="inline-block text-primary-500 font-semibold text-sm uppercase tracking-widest mb-3">
+          <span className="inline-block text-primary-400 font-semibold text-sm uppercase tracking-widest mb-3">
             Client Stories
           </span>
           <h2 className="section-title">What Our Clients Say</h2>
-          <p className="section-subtitle mx-auto text-gray-600">
+          <p className="section-subtitle mx-auto">
             Don&apos;t just take our word for it — hear from the businesses
             we&apos;ve helped grow.
           </p>
@@ -155,7 +155,7 @@ const Testimonials: React.FC = () => {
                 exit="exit"
               >
                 <StarRating rating={testimonial.rating} />
-                <blockquote className="text-lg md:text-xl text-gray-700 leading-relaxed mb-8 italic">
+                <blockquote className="text-lg md:text-xl text-gray-300 leading-relaxed mb-8 italic">
                   &ldquo;{testimonial.content}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-4">
@@ -166,7 +166,7 @@ const Testimonials: React.FC = () => {
                     {testimonial.initials}
                   </motion.div>
                   <div>
-                    <p className="font-semibold text-secondary-800">
+                    <p className="font-semibold text-gray-100">
                       {testimonial.name}
                     </p>
                     <p className="text-sm text-gray-500">
@@ -215,7 +215,7 @@ const Testimonials: React.FC = () => {
                   className={`h-2.5 rounded-full transition-all duration-300 ${
                     i === current
                       ? "bg-primary-500 w-6"
-                      : "bg-gray-300 w-2.5 hover:bg-primary-300"
+                      : "bg-white/20 w-2.5 hover:bg-primary-400"
                   }`}
                   whileHover={{ scale: 1.2 }}
                   whileTap={{ scale: 0.9 }}

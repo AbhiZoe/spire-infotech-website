@@ -18,39 +18,39 @@ const ContactCard: React.FC<ContactCardProps> = ({
   link,
   linkLabel,
 }) => (
-  <motion.div
-    className="card p-6 flex flex-col items-center text-center group"
-    variants={fadeInUp}
-    whileHover={{
-      y: -6,
-      boxShadow: "0 16px 40px rgba(31,199,199,0.16)",
-      transition: { duration: 0.3 },
-    }}
-  >
     <motion.div
-      className="w-14 h-14 rounded-full bg-primary-50 flex items-center justify-center mb-4 group-hover:bg-primary-100 transition-colors duration-300"
-      whileHover={{ rotate: [0, -10, 10, 0], transition: { duration: 0.4 } }}
+      className="card p-6 flex flex-col items-center text-center group"
+      variants={fadeInUp}
+      whileHover={{
+        y: -6,
+        boxShadow: "0 16px 40px rgba(31,199,199,0.16)",
+        transition: { duration: 0.3 },
+      }}
     >
-      {icon}
-    </motion.div>
-    <h3 className="font-semibold text-secondary-800 mb-2 group-hover:text-primary-600 transition-colors duration-300">
-      {title}
-    </h3>
-    {details.map((d, i) => (
-      <p key={i} className="text-gray-600 text-sm">
-        {d}
-      </p>
-    ))}
-    {link && linkLabel && (
-      <motion.a
-        href={link}
-        className="mt-3 text-primary-500 hover:text-primary-600 text-sm font-medium transition-colors inline-flex items-center gap-1"
-        whileHover={{ x: 3 }}
+      <motion.div
+        className="w-14 h-14 rounded-full bg-primary-500/20 flex items-center justify-center mb-4 group-hover:bg-primary-500/30 transition-colors duration-300"
+        whileHover={{ rotate: [0, -10, 10, 0], transition: { duration: 0.4 } }}
       >
-        {linkLabel}
-      </motion.a>
-    )}
-  </motion.div>
+        {icon}
+      </motion.div>
+      <h3 className="font-semibold text-gray-100 mb-2 group-hover:text-primary-400 transition-colors duration-300">
+        {title}
+      </h3>
+      {details.map((d, i) => (
+        <p key={i} className="text-gray-400 text-sm">
+          {d}
+        </p>
+      ))}
+      {link && linkLabel && (
+        <motion.a
+          href={link}
+          className="mt-3 text-primary-400 hover:text-primary-300 text-sm font-medium transition-colors inline-flex items-center gap-1"
+          whileHover={{ x: 3 }}
+        >
+          {linkLabel}
+        </motion.a>
+      )}
+    </motion.div>
 );
 
 const Contact: React.FC = () => {
@@ -127,7 +127,7 @@ const Contact: React.FC = () => {
   ];
 
   return (
-    <section id="contact" className="section-padding bg-white">
+    <section id="contact" className="section-padding section-dark">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <motion.div
@@ -137,11 +137,11 @@ const Contact: React.FC = () => {
           whileInView="visible"
           viewport={viewportConfig}
         >
-          <span className="inline-block text-primary-500 font-semibold text-sm uppercase tracking-widest mb-3">
+          <span className="inline-block text-primary-400 font-semibold text-sm uppercase tracking-widest mb-3">
             Get in Touch
           </span>
           <h2 className="section-title">Contact Us</h2>
-          <p className="section-subtitle mx-auto text-gray-600">
+          <p className="section-subtitle mx-auto">
             Have a project in mind or a question? We&apos;d love to hear from
             you. Reach out and we&apos;ll respond promptly.
           </p>
