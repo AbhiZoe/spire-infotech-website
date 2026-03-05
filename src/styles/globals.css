@@ -605,3 +605,47 @@ body {
     animation: none;
   }
 }
+/* Reveal next section after hero zoom */
+#about {
+  opacity: 0;
+  transform: translateY(80px);
+}
+
+/* Keep headline sharp during zoom */
+.mask-wrapper {
+  position: relative;
+}
+
+.mask-text {
+  color: transparent;
+  background: linear-gradient(#ffffff, #ffffff);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+
+/* ===================== HERO PARTICLE DISSOLVE ===================== */
+
+.hero-headline {
+  word-break: keep-all;
+  text-wrap: balance;
+  text-rendering: geometricPrecision;
+  backface-visibility: hidden;
+  will-change: transform, filter, opacity;
+}
+
+.hero-background {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+.mask-wrapper {
+  position: relative;
+}
+
+.mask-text {
+  color: transparent;
+  background: linear-gradient(#ffffff, #ffffff);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
