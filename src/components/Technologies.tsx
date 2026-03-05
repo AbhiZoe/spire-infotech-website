@@ -5,18 +5,18 @@ import { blurFade, staggerContainerFast, viewportConfig } from "@/lib/animations
 import SectionTitle from "./SectionTitle";
 
 const technologies = [
-  { name: "React", logo: "/images/tech/react.svg" },
-  { name: "Next.js", logo: "/images/tech/nextjs.svg" },
-  { name: "Node.js", logo: "/images/tech/nodejs.svg" },
-  { name: "Python", logo: "/images/tech/python.svg" },
-  { name: "AWS", logo: "/images/tech/aws.svg" },
-  { name: "Docker", logo: "/images/tech/docker.svg" },
-  { name: "MongoDB", logo: "/images/tech/mongodb.svg" },
-  { name: "Java", logo: null },
-  { name: ".NET", logo: null },
-  { name: "Flutter", logo: null },
-  { name: "React Native", logo: null },
-  { name: "PostgreSQL", logo: null },
+  { name: "React", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+  { name: "Next.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
+  { name: "Node.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
+  { name: "Python", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+  { name: "AWS", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" },
+  { name: "Docker", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
+  { name: "MongoDB", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
+  { name: "Java", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
+  { name: ".NET", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg" },
+  { name: "Flutter", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" },
+  { name: "React Native", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/reactnative/reactnative-original.svg" },
+  { name: "PostgreSQL", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
 ];
 
 const Technologies: React.FC = () => (

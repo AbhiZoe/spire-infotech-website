@@ -3,7 +3,16 @@ const nextConfig = {
   reactStrictMode: true,
   compress: true,
   images: {
-    domains: [],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.jsdelivr.net",
+      },
+    ],
     formats: ["image/avif", "image/webp"],
   },
 };

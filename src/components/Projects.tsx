@@ -11,8 +11,8 @@ const projects = [
     tag: "ERP",
     accent: "from-blue-500/20 to-blue-600/10",
     border: "border-blue-500/20",
-    image: "/images/projects/cloud-infrastructure.svg",
-    imageAlt: "Cloud infrastructure project screenshot",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&h=400&q=80",
+    imageAlt: "Business analytics dashboard",
   },
   {
     title: "HealthFirst HMS",
@@ -20,8 +20,8 @@ const projects = [
     tag: "Healthcare",
     accent: "from-green-500/20 to-green-600/10",
     border: "border-green-500/20",
-    image: null,
-    imageAlt: "",
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&h=400&q=80",
+    imageAlt: "Healthcare management system",
   },
   {
     title: "RetailMax Platform",
@@ -29,8 +29,8 @@ const projects = [
     tag: "E-Commerce",
     accent: "from-purple-500/20 to-purple-600/10",
     border: "border-purple-500/20",
-    image: "/images/projects/ecommerce-platform.svg",
-    imageAlt: "E-commerce platform project screenshot",
+    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&h=400&q=80",
+    imageAlt: "E-commerce platform",
   },
   {
     title: "LogiTrack App",
@@ -38,8 +38,8 @@ const projects = [
     tag: "Mobile",
     accent: "from-orange-500/20 to-orange-600/10",
     border: "border-orange-500/20",
-    image: null,
-    imageAlt: "",
+    image: "https://images.unsplash.com/photo-1526628953301-3cd97b1aaede?auto=format&fit=crop&w=800&h=400&q=80",
+    imageAlt: "Mobile logistics tracking app",
   },
   {
     title: "FinSmart Dashboard",
@@ -47,8 +47,8 @@ const projects = [
     tag: "FinTech",
     accent: "from-yellow-500/20 to-yellow-600/10",
     border: "border-yellow-500/20",
-    image: "/images/projects/mobile-banking.svg",
-    imageAlt: "Mobile banking project screenshot",
+    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800&h=400&q=80",
+    imageAlt: "Financial analytics dashboard",
   },
   {
     title: "EduLearn LMS",
@@ -56,8 +56,8 @@ const projects = [
     tag: "EdTech",
     accent: "from-teal-500/20 to-teal-600/10",
     border: "border-teal-500/20",
-    image: null,
-    imageAlt: "",
+    image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=800&h=400&q=80",
+    imageAlt: "E-learning management system",
   },
 ];
 
