@@ -187,7 +187,10 @@ const HeroSection: React.FC = () => {
     const headline = headlineRef.current;
     if (!hero || !headline) return;
 
-    // Cinematic headline zoom: 1× → 5×, opacity 1 → 0, blur increases
+    // Use font-size zoom (NOT transform scale) for perfectly crisp text
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const endFontSize = isMobile ? "15vw" : "20vw";
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: hero,
@@ -199,12 +202,21 @@ const HeroSection: React.FC = () => {
       },
     });
 
+    // Animate font-size: 4rem → endFontSize (sharp, NO blur)
     tl.to(headline, {
-      scale: 5,
-      opacity: 0,
-      filter: "blur(8px)",
+      fontSize: endFontSize,
       ease: "none",
     });
+
+    // Fade out in the second half of the scroll
+    tl.to(
+      headline,
+      {
+        opacity: 0.3,
+        ease: "none",
+      },
+      0.5 // start at 50% through the timeline
+    );
 
     return () => {
       ScrollTrigger.getAll().forEach((st) => st.kill());
