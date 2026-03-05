@@ -366,6 +366,53 @@ body {
   @apply block text-sm font-medium text-secondary-700 mb-1.5;
 }
 
+/* ===================== NAVBAR STYLES ===================== */
+
+/* Nav link hover underline effect */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  border-radius: 9999px;
+  background-color: #1FC7C7;
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover::after {
+  width: 80%;
+}
+
+/* Mobile nav item slide-in animation (staggered) */
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.mobile-nav-item {
+  animation: slideInFromLeft 0.3s ease both;
+}
+
+/* Hover bg for mobile nav */
+.hover\:bg-white\/8:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Logo pulse glow on page load */
+@keyframes logoGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(31, 199, 199, 0); }
+  50% { box-shadow: 0 0 20px 4px rgba(31, 199, 199, 0.4); }
+}
+
 /* ===================== SCROLLBAR STYLES ===================== */
 ::-webkit-scrollbar {
   width: 8px;
