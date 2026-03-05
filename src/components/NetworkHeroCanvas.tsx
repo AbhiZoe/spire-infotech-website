@@ -2,28 +2,27 @@
 
 import React, { useEffect, useRef } from "react";
 
+interface Props {
+  converge: boolean;
+  formLogo: boolean;
+}
+
 interface Node {
   x: number;
   y: number;
   vx: number;
   vy: number;
-  layer: number;
+  targetX?: number;
+  targetY?: number;
 }
 
-interface Pulse {
-  x: number;
-  y: number;
-  progress: number;
-}
+const NODE_COUNT = 120;
+const CONNECTION_DISTANCE = 140;
 
-interface Props {
-  converge?: boolean;
-  formLogo?: boolean;
-}
-
-const NetworkHeroCanvas: React.FC<Props> = ({ converge = false, formLogo = false }) => {
+const NetworkHeroCanvas: React.FC<Props> = ({ converge, formLogo }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const frameRef = useRef<number>(0);
+  const nodesRef = useRef<Node[]>([]);
+  const mouseRef = useRef({ x: -9999, y: -9999 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -34,165 +33,149 @@ const NetworkHeroCanvas: React.FC<Props> = ({ converge = false, formLogo = false
 
     let width = 0;
     let height = 0;
-
-    const NODE_COUNT = 120;
-    const COLOR = "31,199,199";
-
-    const nodes: Node[] = [];
-    const pulses: Pulse[] = [];
-
-    const mouse = { x: -1000, y: -1000 };
+    let animationFrame: number;
 
     const resize = () => {
-      width = canvas.width = canvas.parentElement!.clientWidth;
-height = canvas.height = canvas.parentElement!.clientHeight;
+      width = canvas.width = canvas.offsetWidth;
+      height = canvas.height = canvas.offsetHeight;
     };
 
-    const createNodes = () => {
-      nodes.length = 0;
+    resize();
+    window.addEventListener("resize", resize);
 
-      for (let i = 0; i < NODE_COUNT; i++) {
-        nodes.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: (Math.random() - 0.5) * 0.3,
-          layer: Math.random() * 2 + 1
-        });
-      }
-    };
+    /* CREATE RANDOM NODES */
 
-    const drawConnections = () => {
-      const maxDist = 130;
+    nodesRef.current = Array.from({ length: NODE_COUNT }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.6,
+      vy: (Math.random() - 0.5) * 0.6,
+    }));
 
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
+    /* CREATE LOGO TARGET POSITIONS */
 
-          const dx = nodes[i].x - nodes[j].x;
-          const dy = nodes[i].y - nodes[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+    const logoTargets: { x: number; y: number }[] = [];
 
-          if (dist < maxDist) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(${COLOR},${0.18 * (1 - dist / maxDist)})`;
-            ctx.lineWidth = 0.7;
-            ctx.moveTo(nodes[i].x, nodes[i].y);
-            ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.stroke();
+    const text = "SPIRE";
+    const fontSize = 180;
 
-            if (Math.random() < 0.0008) {
-              pulses.push({ x: nodes[i].x, y: nodes[i].y, progress: 0 });
-            }
-          }
+    const offCanvas = document.createElement("canvas");
+    const offCtx = offCanvas.getContext("2d")!;
+
+    offCanvas.width = width;
+    offCanvas.height = height;
+
+    offCtx.fillStyle = "white";
+    offCtx.font = `bold ${fontSize}px Arial`;
+    offCtx.textAlign = "center";
+    offCtx.fillText(text, width / 2, height / 2);
+
+    const imageData = offCtx.getImageData(0, 0, width, height);
+
+    for (let y = 0; y < height; y += 6) {
+      for (let x = 0; x < width; x += 6) {
+        const index = (y * width + x) * 4;
+        if (imageData.data[index + 3] > 150) {
+          logoTargets.push({ x, y });
         }
       }
+    }
+
+    /* MOUSE INTERACTION */
+
+    const handleMouse = (e: MouseEvent) => {
+      mouseRef.current.x = e.clientX;
+      mouseRef.current.y = e.clientY;
     };
 
-    const drawPulses = () => {
-      for (const p of pulses) {
-        p.progress += 0.02;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 3 + p.progress * 20, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(${COLOR},${0.6 - p.progress})`;
-        ctx.stroke();
-      }
-
-      for (let i = pulses.length - 1; i >= 0; i--) {
-        if (pulses[i].progress > 1) pulses.splice(i, 1);
-      }
-    };
-
-    const updateNodes = () => {
-      for (const n of nodes) {
-
-        if (converge) {
-          const cx = width / 2;
-          const cy = height / 2;
-
-          n.x += (cx - n.x) * 0.002;
-          n.y += (cy - n.y) * 0.002;
-        }
-
-        if (formLogo) {
-          const targetX = width / 2 + (Math.sin(n.layer * 5) * 60);
-          const targetY = height / 2 + (Math.cos(n.layer * 5) * 30);
-
-          n.x += (targetX - n.x) * 0.002;
-          n.y += (targetY - n.y) * 0.002;
-        }
-
-        const dx = n.x - mouse.x;
-        const dy = n.y - mouse.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < 120) {
-          n.x += dx * 0.01;
-          n.y += dy * 0.01;
-        }
-
-        n.x += n.vx / n.layer;
-        n.y += n.vy / n.layer;
-
-        if (n.x < 0) n.x = width;
-        if (n.x > width) n.x = 0;
-        if (n.y < 0) n.y = height;
-        if (n.y > height) n.y = 0;
-      }
-    };
-
-    const drawNodes = () => {
-      for (const n of nodes) {
-
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, 2.2 / n.layer, 0, Math.PI * 2);
-
-        ctx.shadowBlur = 12;
-        ctx.shadowColor = "rgba(31,199,199,0.6)";
-        ctx.fillStyle = `rgba(${COLOR},0.9)`;
-
-        ctx.fill();
-      }
-    };
+    window.addEventListener("mousemove", handleMouse);
 
     const animate = () => {
       ctx.clearRect(0, 0, width, height);
 
-      updateNodes();
-      drawConnections();
-      drawNodes();
-      drawPulses();
+      const nodes = nodesRef.current;
 
-      frameRef.current = requestAnimationFrame(animate);
+      nodes.forEach((node, i) => {
+        if (formLogo && logoTargets[i]) {
+          node.targetX = logoTargets[i].x;
+          node.targetY = logoTargets[i].y;
+
+          node.x += (node.targetX - node.x) * 0.05;
+          node.y += (node.targetY - node.y) * 0.05;
+        } else {
+          node.x += node.vx;
+          node.y += node.vy;
+        }
+
+        /* SCREEN WRAP */
+
+        if (node.x < 0) node.x = width;
+        if (node.x > width) node.x = 0;
+
+        if (node.y < 0) node.y = height;
+        if (node.y > height) node.y = 0;
+
+        /* MOUSE PUSH */
+
+        const dx = node.x - mouseRef.current.x;
+        const dy = node.y - mouseRef.current.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 120) {
+          node.x += dx * 0.02;
+          node.y += dy * 0.02;
+        }
+
+        /* DRAW NODE */
+
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, 2.2, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(31,199,199,0.9)";
+        ctx.fill();
+      });
+
+      /* CONNECTION LINES */
+
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < CONNECTION_DISTANCE) {
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+
+            ctx.strokeStyle =
+              "rgba(31,199,199," +
+              (1 - dist / CONNECTION_DISTANCE) * 0.5 +
+              ")";
+
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+
+      animationFrame = requestAnimationFrame(animate);
     };
 
-    resize();
-    createNodes();
     animate();
 
-    const move = (e: MouseEvent) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    };
-
-    window.addEventListener("mousemove", move);
-    window.addEventListener("resize", resize);
-
     return () => {
-      cancelAnimationFrame(frameRef.current);
-      window.removeEventListener("mousemove", move);
+      cancelAnimationFrame(animationFrame);
       window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", handleMouse);
     };
-
   }, [converge, formLogo]);
 
   return (
     <canvas
-  ref={canvasRef}
-  className="absolute top-0 left-0 w-full h-full block"
-/>
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full block"
+    />
   );
 };
-console.log("Network Canvas Loaded");
 
 export default NetworkHeroCanvas;

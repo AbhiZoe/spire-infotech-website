@@ -683,3 +683,27 @@ body {
 canvas {
   pointer-events: none;
 }
+.camera-layer {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.hero-headline {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  will-change: transform, opacity, filter;
+}
+.glass-hero {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow:
+    0 0 80px rgba(31,199,199,0.15),
+    inset 0 0 40px rgba(31,199,199,0.05);
+}
+#about{
+opacity:0;
+transform:translateY(100px);
+transition:all 0.6s ease;
+}
