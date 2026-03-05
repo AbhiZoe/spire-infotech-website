@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" fill="none">
+  <rect width="640" height="320" fill="#0F1419"/>
+  <!-- Office/team illustration -->
+  <rect x="0" y="200" width="640" height="120" fill="#1F2A30"/>
+  <!-- Desks -->
+  <rect x="40" y="200" width="140" height="6" rx="3" fill="#1fc7c7" opacity="0.3"/>
+  <rect x="240" y="200" width="140" height="6" rx="3" fill="#1fc7c7" opacity="0.3"/>
+  <rect x="440" y="200" width="140" height="6" rx="3" fill="#1fc7c7" opacity="0.3"/>
+  <!-- Monitors -->
+  <rect x="60" y="164" width="60" height="38" rx="3" fill="#162029" stroke="#1fc7c7" stroke-width="1.5"/>
+  <rect x="64" y="167" width="52" height="30" rx="2" fill="#1fc7c7" opacity="0.1"/>
+  <rect x="72" y="202" width="12" height="4" rx="1" fill="#1fc7c7" opacity="0.3"/>
+  <rect x="260" y="164" width="60" height="38" rx="3" fill="#162029" stroke="#1fc7c7" stroke-width="1.5"/>
+  <rect x="264" y="167" width="52" height="30" rx="2" fill="#1fc7c7" opacity="0.1"/>
+  <rect x="272" y="202" width="12" height="4" rx="1" fill="#1fc7c7" opacity="0.3"/>
+  <rect x="460" y="164" width="60" height="38" rx="3" fill="#162029" stroke="#1fc7c7" stroke-width="1.5"/>
+  <rect x="464" y="167" width="52" height="30" rx="2" fill="#1fc7c7" opacity="0.1"/>
+  <rect x="472" y="202" width="12" height="4" rx="1" fill="#1fc7c7" opacity="0.3"/>
+  <!-- People (simple silhouettes) -->
+  <circle cx="100" cy="140" r="14" fill="#1fc7c7" opacity="0.4"/>
+  <path d="M74 200 Q74 170 100 170 Q126 170 126 200" fill="#1fc7c7" opacity="0.3"/>
+  <circle cx="300" cy="140" r="14" fill="#1fc7c7" opacity="0.4"/>
+  <path d="M274 200 Q274 170 300 170 Q326 170 326 200" fill="#1fc7c7" opacity="0.3"/>
+  <circle cx="500" cy="140" r="14" fill="#1fc7c7" opacity="0.4"/>
+  <path d="M474 200 Q474 170 500 170 Q526 170 526 200" fill="#1fc7c7" opacity="0.3"/>
+  <!-- Brand text -->
+  <text x="320" y="80" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="700" font-size="24" fill="#1fc7c7" opacity="0.8">Spire Infotech</text>
+  <text x="320" y="110" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" fill="#1fc7c7" opacity="0.4">Innovative Software Solutions</text>
+  <!-- Decorative dots -->
+  <circle cx="180" cy="50" r="3" fill="#1fc7c7" opacity="0.3"/>
+  <circle cx="460" cy="50" r="3" fill="#1fc7c7" opacity="0.3"/>
+  <circle cx="320" cy="30" r="5" fill="#1fc7c7" opacity="0.5"/>
+</svg>

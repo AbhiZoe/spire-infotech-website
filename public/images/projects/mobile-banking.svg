@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 340" fill="none">
+  <rect width="200" height="340" fill="#0F1419"/>
+  <!-- Phone outline -->
+  <rect x="20" y="10" width="160" height="320" rx="24" stroke="#1fc7c7" stroke-width="2" fill="#1F2A30"/>
+  <!-- Status bar -->
+  <rect x="70" y="18" width="60" height="8" rx="4" fill="#1fc7c7" opacity="0.2"/>
+  <!-- Balance card -->
+  <rect x="32" y="42" width="136" height="72" rx="10" fill="#1fc7c7" opacity="0.15" stroke="#1fc7c7" stroke-width="1"/>
+  <rect x="42" y="54" width="60" height="6" rx="2" fill="#1fc7c7" opacity="0.4"/>
+  <rect x="42" y="68" width="90" height="14" rx="3" fill="#1fc7c7" opacity="0.7"/>
+  <rect x="42" y="88" width="40" height="6" rx="2" fill="#1fc7c7" opacity="0.3"/>
+  <!-- Quick actions -->
+  <rect x="32" y="126" width="28" height="28" rx="8" fill="#1fc7c7" opacity="0.15"/>
+  <rect x="70" y="126" width="28" height="28" rx="8" fill="#1fc7c7" opacity="0.15"/>
+  <rect x="108" y="126" width="28" height="28" rx="8" fill="#1fc7c7" opacity="0.15"/>
+  <rect x="146" y="126" width="28" height="28" rx="8" fill="#1fc7c7" opacity="0.15"/>
+  <!-- Transactions list -->
+  <rect x="32" y="170" width="136" height="1.5" fill="#1fc7c7" opacity="0.1"/>
+  <rect x="32" y="182" width="136" height="28" rx="6" fill="#1fc7c7" opacity="0.08"/>
+  <circle cx="50" cy="196" r="10" fill="#1fc7c7" opacity="0.2"/>
+  <rect x="66" y="190" width="60" height="5" rx="2" fill="#1fc7c7" opacity="0.5"/>
+  <rect x="66" y="199" width="44" height="4" rx="2" fill="#1fc7c7" opacity="0.3"/>
+  <rect x="145" y="190" width="18" height="5" rx="2" fill="#1fc7c7" opacity="0.6"/>
+  <rect x="32" y="218" width="136" height="28" rx="6" fill="#1fc7c7" opacity="0.08"/>
+  <circle cx="50" cy="232" r="10" fill="#1fc7c7" opacity="0.2"/>
+  <rect x="66" y="226" width="50" height="5" rx="2" fill="#1fc7c7" opacity="0.5"/>
+  <rect x="66" y="235" width="38" height="4" rx="2" fill="#1fc7c7" opacity="0.3"/>
+  <rect x="145" y="226" width="18" height="5" rx="2" fill="#1fc7c7" opacity="0.6"/>
+  <rect x="32" y="254" width="136" height="28" rx="6" fill="#1fc7c7" opacity="0.08"/>
+  <circle cx="50" cy="268" r="10" fill="#1fc7c7" opacity="0.2"/>
+  <rect x="66" y="262" width="54" height="5" rx="2" fill="#1fc7c7" opacity="0.5"/>
+  <rect x="66" y="271" width="42" height="4" rx="2" fill="#1fc7c7" opacity="0.3"/>
+  <rect x="145" y="262" width="18" height="5" rx="2" fill="#1fc7c7" opacity="0.6"/>
+  <!-- Bottom nav -->
+  <rect x="20" y="300" width="160" height="40" rx="0" fill="#162029"/>
+  <rect x="20" y="298" width="160" height="2" fill="#1fc7c7" opacity="0.1"/>
+  <circle cx="56" cy="320" r="6" fill="#1fc7c7" opacity="0.6"/>
+  <circle cx="100" cy="320" r="6" fill="#1fc7c7" opacity="0.3"/>
+  <circle cx="144" cy="320" r="6" fill="#1fc7c7" opacity="0.3"/>
+</svg>

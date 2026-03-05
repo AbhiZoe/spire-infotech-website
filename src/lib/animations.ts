@@ -85,3 +85,41 @@ export const viewportConfig = {
   once: true,
   margin: "-80px",
 } as const;
+
+export const zoomIn: Variants = {
+  hidden: { opacity: 0, scale: 0.6 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const },
+  },
+};
+
+export const blurFade: Variants = {
+  hidden: { opacity: 0, filter: "blur(12px)", y: 20 },
+  visible: {
+    opacity: 1,
+    filter: "blur(0px)",
+    y: 0,
+    transition: { duration: 0.7, ease: "easeOut" as const },
+  },
+};
+
+export const slideInFromBottom: Variants = {
+  hidden: { opacity: 0, y: 60 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const },
+  },
+};
+
+export const staggerContainerSlow: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
+    },
+  },
+};

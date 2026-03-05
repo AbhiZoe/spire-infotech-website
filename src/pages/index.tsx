@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import Head from "next/head";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Navbar from "@/components/Navbar";
@@ -12,6 +12,10 @@ import {
   scaleIn,
   staggerContainer,
   staggerContainerFast,
+  staggerContainerSlow,
+  zoomIn,
+  blurFade,
+  slideInFromBottom,
   viewportConfig,
 } from "@/lib/animations";
 
@@ -117,13 +121,123 @@ const ParticleCanvas: React.FC = () => {
   );
 };
 
+/* ── Typewriter text component ── */
+/** Delay between each typed character in milliseconds */
+const CHAR_DELAY_MS = 65;
+/** Delay before the typewriter starts (allows entry animation to settle) */
+const TYPEWRITER_START_DELAY_MS = 600;
+/**
+ * Approximate time (seconds) for both hero lines to finish typing:
+ * start_delay + line1_chars * char_delay + line2_chars * char_delay
+ * ≈ 0.6s + 21*0.065s + 21*0.065s ≈ 3.3s → 3.5s with buffer
+ */
+const HERO_TYPING_DONE_S = 3.5;
+
+interface TypewriterTextProps {
+  text: string;
+  charDelay?: number;
+  delay?: number;
+  className?: string;
+  showCursor?: boolean;
+  onComplete?: () => void;
+}
+
+const TypewriterText: React.FC<TypewriterTextProps> = ({
+  text,
+  charDelay = CHAR_DELAY_MS,
+  delay = 0,
+  className = "",
+  showCursor = true,
+  onComplete,
+}) => {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
+
+  useEffect(() => {
+    setDisplayed("");
+    setDone(false);
+    let i = 0;
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+
+    const startTimeout = setTimeout(() => {
+      intervalId = setInterval(() => {
+        i++;
+        setDisplayed(text.slice(0, i));
+        if (i >= text.length) {
+          if (intervalId) clearInterval(intervalId);
+          setDone(true);
+          onCompleteRef.current?.();
+        }
+      }, charDelay);
+    }, delay);
+
+    return () => {
+      clearTimeout(startTimeout);
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [text, charDelay, delay]);
+
+  return (
+    <span className={className}>
+      {displayed}
+      {showCursor && (
+        <span
+          className={`inline-block w-0.5 h-[1em] bg-primary-400 ml-0.5 align-middle ${
+            done ? "animate-cursor-blink" : ""
+          }`}
+          aria-hidden="true"
+        />
+      )}
+    </span>
+  );
+};
+
+/* ── Zoom Section Title component ── */
+interface ZoomTitleProps {
+  label: string;
+  title: string;
+  subtitle?: string;
+}
+
+const ZoomSectionTitle: React.FC<ZoomTitleProps> = ({ label, title, subtitle }) => (
+  <motion.div
+    className="text-center mb-12"
+    variants={staggerContainerSlow}
+    initial="hidden"
+    whileInView="visible"
+    viewport={viewportConfig}
+  >
+    <motion.span
+      className="inline-block text-primary-400 font-semibold text-sm uppercase tracking-widest mb-3"
+      variants={blurFade}
+    >
+      {label}
+    </motion.span>
+    <motion.h2
+      className="section-title zoom-text-trigger"
+      variants={zoomIn}
+    >
+      {title}
+    </motion.h2>
+    {subtitle && (
+      <motion.p className="section-subtitle mx-auto" variants={fadeInUp}>
+        {subtitle}
+      </motion.p>
+    )}
+  </motion.div>
+);
+
 /* ── Hero with animated canvas background ── */
 const Hero: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
+  const [line2Started, setLine2Started] = useState(false);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
+  const handleLine1Complete = useCallback(() => setLine2Started(true), []);
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
@@ -160,36 +274,48 @@ const Hero: React.FC = () => {
       >
         <motion.span
           className="inline-block text-primary-400 font-semibold text-sm uppercase tracking-widest mb-6 px-4 py-1.5 rounded-full border border-primary-500/30 bg-primary-500/10"
-          variants={fadeInUp}
+          variants={blurFade}
           initial="hidden"
           animate="visible"
         >
           Innovative Software Solutions
         </motion.span>
 
-        <motion.h1
-          className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
-          variants={staggerContainer}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.span variants={fadeInUp} className="block text-white">
-            Empowering Businesses
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+          <motion.span
+            className="block text-white"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <TypewriterText
+              text="Empowering Businesses"
+              charDelay={CHAR_DELAY_MS}
+              delay={TYPEWRITER_START_DELAY_MS}
+              showCursor={!line2Started}
+              onComplete={handleLine1Complete}
+            />
           </motion.span>
           <motion.span
-            variants={fadeInUp}
             className="block bg-gradient-to-r from-primary-400 to-primary-300 bg-clip-text text-transparent"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: line2Started ? 1 : 0, y: line2Started ? 0 : 20 }}
+            transition={{ duration: 0.3 }}
           >
-            with Smart Technology
+            <TypewriterText
+              text="with Smart Technology"
+              charDelay={CHAR_DELAY_MS}
+              delay={0}
+              showCursor={line2Started}
+            />
           </motion.span>
-        </motion.h1>
+        </h1>
 
         <motion.p
           className="text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
-          variants={fadeInUp}
-          initial="hidden"
-          animate="visible"
-          transition={{ delay: 0.4 }}
+          initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 0.7, delay: HERO_TYPING_DONE_S }}
         >
           We build custom ERP systems, web applications, and mobile solutions
           that transform how you work and accelerate your growth.
@@ -197,14 +323,13 @@ const Hero: React.FC = () => {
 
         <motion.div
           className="flex flex-col sm:flex-row gap-4 justify-center"
-          variants={staggerContainerFast}
-          initial="hidden"
-          animate="visible"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: HERO_TYPING_DONE_S + 0.3 }}
         >
           <motion.a
             href="#contact"
             className="btn-primary"
-            variants={scaleIn}
             whileHover={{
               scale: 1.06,
               boxShadow: "0 0 30px rgba(31,199,199,0.45)",
@@ -216,7 +341,6 @@ const Hero: React.FC = () => {
           <motion.a
             href="#projects"
             className="btn-ghost"
-            variants={scaleIn}
             whileHover={{
               scale: 1.04,
               backgroundColor: "rgba(255,255,255,0.1)",
@@ -283,11 +407,11 @@ const About: React.FC = () => {
           >
             <motion.span
               className="inline-block text-primary-400 font-semibold text-sm uppercase tracking-widest mb-3"
-              variants={fadeInUp}
+              variants={blurFade}
             >
               About Us
             </motion.span>
-            <motion.h2 className="section-title mb-4" variants={fadeInUp}>
+            <motion.h2 className="section-title mb-4 zoom-text-trigger" variants={zoomIn}>
               Your Technology Partner for Growth
             </motion.h2>
             <motion.p
@@ -435,22 +559,11 @@ const ServiceCard: React.FC<{
 const Services: React.FC = () => (
   <section id="services" className="section-padding section-dark-alt">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <motion.div
-        className="text-center mb-12"
-        variants={fadeInUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewportConfig}
-      >
-        <span className="inline-block text-primary-400 font-semibold text-sm uppercase tracking-widest mb-3">
-          What We Do
-        </span>
-        <h2 className="section-title">Our Services</h2>
-        <p className="section-subtitle mx-auto">
-          Comprehensive technology solutions to accelerate your digital
-          transformation journey.
-        </p>
-      </motion.div>
+      <ZoomSectionTitle
+        label="What We Do"
+        title="Our Services"
+        subtitle="Comprehensive technology solutions to accelerate your digital transformation journey."
+      />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {serviceItems.map(({ title, desc, icon }, i) => (
           <ServiceCard
@@ -497,24 +610,11 @@ const whyItems = [
 const WhyChooseUs: React.FC = () => (
   <section id="why-us" className="section-padding gradient-dark text-white">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <motion.div
-        className="text-center mb-12"
-        variants={fadeInUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewportConfig}
-      >
-        <span className="inline-block text-primary-400 font-semibold text-sm uppercase tracking-widest mb-3">
-          Why Spire
-        </span>
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-          Why Choose Us
-        </h2>
-        <p className="text-gray-400 max-w-2xl mx-auto">
-          We combine technical excellence with business acumen to deliver
-          solutions that truly make a difference.
-        </p>
-      </motion.div>
+      <ZoomSectionTitle
+        label="Why Spire"
+        title="Why Choose Us"
+        subtitle="We combine technical excellence with business acumen to deliver solutions that truly make a difference."
+      />
 
       <motion.div
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
@@ -526,7 +626,7 @@ const WhyChooseUs: React.FC = () => (
         {whyItems.map(({ title, desc }) => (
           <motion.div
             key={title}
-            variants={fadeInUp}
+            variants={slideInFromBottom}
             className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary-500/50 hover:bg-white/10 transition-all duration-300 group"
             whileHover={{ y: -4, transition: { duration: 0.25 } }}
           >
@@ -566,22 +666,11 @@ const technologies = [
 const Technologies: React.FC = () => (
   <section id="technologies" className="section-padding section-dark">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <motion.div
-        className="text-center mb-12"
-        variants={fadeInUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewportConfig}
-      >
-        <span className="inline-block text-primary-400 font-semibold text-sm uppercase tracking-widest mb-3">
-          Tech Stack
-        </span>
-        <h2 className="section-title">Technologies We Use</h2>
-        <p className="section-subtitle mx-auto">
-          We leverage the latest and most reliable technologies to build robust
-          solutions.
-        </p>
-      </motion.div>
+      <ZoomSectionTitle
+        label="Tech Stack"
+        title="Technologies We Use"
+        subtitle="We leverage the latest and most reliable technologies to build robust solutions."
+      />
       <motion.div
         className="flex flex-wrap justify-center gap-4"
         variants={staggerContainerFast}
@@ -592,10 +681,11 @@ const Technologies: React.FC = () => (
         {technologies.map((tech) => (
           <motion.div
             key={tech}
-            variants={scaleIn}
+            variants={blurFade}
             className="tech-badge"
             whileHover={{
-              scale: 1.08,
+              scale: 1.1,
+              y: -4,
               transition: { duration: 0.2 },
             }}
             whileTap={{ scale: 0.96 }}
@@ -712,22 +802,11 @@ const ProjectCard: React.FC<{
 const Projects: React.FC = () => (
   <section id="projects" className="section-padding section-dark-alt">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <motion.div
-        className="text-center mb-12"
-        variants={fadeInUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewportConfig}
-      >
-        <span className="inline-block text-primary-400 font-semibold text-sm uppercase tracking-widest mb-3">
-          Portfolio
-        </span>
-        <h2 className="section-title">Our Projects</h2>
-        <p className="section-subtitle mx-auto">
-          A selection of the impactful solutions we&apos;ve built for our
-          clients.
-        </p>
-      </motion.div>
+      <ZoomSectionTitle
+        label="Portfolio"
+        title="Our Projects"
+        subtitle="A selection of the impactful solutions we've built for our clients."
+      />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map(({ title, desc, tag, accent, border }, i) => (
           <ProjectCard
