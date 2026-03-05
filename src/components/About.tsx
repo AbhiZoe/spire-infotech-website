@@ -112,6 +112,7 @@ const About: React.FC = () => {
                 width={600}
                 height={450}
                 className="w-full h-auto object-contain"
+                unoptimized
               />
             </motion.div>
           </motion.div>
