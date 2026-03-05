@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Head from "next/head";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import Navbar from "@/components/Navbar";
 import Testimonials from "@/components/Testimonials";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -8,185 +9,149 @@ import {
   fadeInUp,
   fadeInLeft,
   fadeInRight,
-  fadeInDown,
   scaleIn,
   staggerContainer,
   staggerContainerFast,
   viewportConfig,
 } from "@/lib/animations";
 
-/* ── Navbar with scroll-aware blur & shadow ── */
+/* ── Particle canvas background for Hero ── */
+const PARTICLE_COUNT = 90;
+const MAX_DIST = 140;
+const PARTICLE_SPEED = 0.45;
+const PARTICLE_SIZE_MAX = 1.8;
+const PARTICLE_SIZE_MIN = 0.6;
+const PARTICLE_OPACITY_MAX = 0.55;
+const PARTICLE_OPACITY_MIN = 0.2;
+const LINE_ALPHA_FACTOR = 0.28;
 
-const Navbar: React.FC = () => {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+const ParticleCanvas: React.FC = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animFrameId: number;
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    const particles: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      size: number;
+      opacity: number;
+    }> = [];
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * PARTICLE_SPEED,
+        vy: (Math.random() - 0.5) * PARTICLE_SPEED,
+        size: Math.random() * PARTICLE_SIZE_MAX + PARTICLE_SIZE_MIN,
+        opacity: Math.random() * PARTICLE_OPACITY_MAX + PARTICLE_OPACITY_MIN,
+      });
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < MAX_DIST) {
+            const alpha = (1 - dist / MAX_DIST) * LINE_ALPHA_FACTOR;
+            ctx.strokeStyle = `rgba(31, 199, 199, ${alpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      for (const p of particles) {
+        ctx.fillStyle = `rgba(31, 199, 199, ${p.opacity})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+      }
+
+      animFrameId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animFrameId);
+      window.removeEventListener("resize", resize);
+    };
   }, []);
 
-  const navItems = ["About", "Services", "Projects", "Testimonials", "Contact"];
-
   return (
-    <motion.nav
-      variants={fadeInDown}
-      initial="hidden"
-      animate="visible"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-white/95 backdrop-blur-xl border-b border-gray-100 shadow-md"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        <motion.a
-          href="#"
-          className="flex items-center gap-2 font-bold text-secondary-800"
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.97 }}
-        >
-          <div className="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center text-white text-sm font-bold shadow-md">
-            SI
-          </div>
-          <span className={scrolled ? "text-secondary-800" : "text-white"}>
-            Spire Infotech
-          </span>
-        </motion.a>
-
-        {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-6 text-sm font-medium">
-          {navItems.map((item, i) => (
-            <motion.a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className={`relative transition-colors duration-200 hover:text-primary-500 ${
-                scrolled ? "text-gray-600" : "text-white/90"
-              }`}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 + i * 0.06 }}
-              whileHover={{ y: -1 }}
-            >
-              {item}
-            </motion.a>
-          ))}
-          <motion.a
-            href="#contact"
-            className="btn-primary text-sm px-4 py-2"
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-            Get in Touch
-          </motion.a>
-        </div>
-
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden p-2"
-          onClick={() => setMenuOpen((v) => !v)}
-          aria-label="Toggle menu"
-        >
-          <div
-            className={`space-y-1.5 ${scrolled ? "text-secondary-800" : "text-white"}`}
-          >
-            <motion.span
-              className="block w-5 h-0.5 bg-current"
-              animate={menuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-            />
-            <motion.span
-              className="block w-5 h-0.5 bg-current"
-              animate={menuOpen ? { opacity: 0 } : { opacity: 1 }}
-            />
-            <motion.span
-              className="block w-5 h-0.5 bg-current"
-              animate={menuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-            />
-          </div>
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            key="mobile-menu"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-white border-t border-gray-100 shadow-lg overflow-hidden"
-          >
-            <div className="px-4 py-4 flex flex-col gap-3">
-              {navItems.map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="text-gray-700 hover:text-primary-500 font-medium py-1 transition-colors"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {item}
-                </a>
-              ))}
-              <a
-                href="#contact"
-                className="btn-primary text-sm px-4 py-2 text-center"
-                onClick={() => setMenuOpen(false)}
-              >
-                Get in Touch
-              </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.nav>
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full"
+      aria-hidden="true"
+    />
   );
 };
 
-/* ── Hero with animated gradient background and floating elements ── */
-
+/* ── Hero with animated canvas background ── */
 const Hero: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   return (
     <section
       id="hero"
       ref={ref}
-      className="relative min-h-screen flex items-center text-white pt-16 overflow-hidden"
+      className="relative min-h-screen flex items-center text-white pt-20 overflow-hidden"
+      style={{ background: "#0F1419" }}
     >
-      {/* Animated gradient background */}
-      <motion.div
-        className="absolute inset-0 gradient-animated"
-        style={{ y }}
-      />
+      {/* Particle canvas */}
+      <motion.div className="absolute inset-0" style={{ y }}>
+        <ParticleCanvas />
+      </motion.div>
+
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-secondary-900/60 via-transparent to-secondary-900/80 pointer-events-none" />
 
       {/* Floating orbs */}
       <motion.div
-        className="absolute top-1/4 -left-20 w-72 h-72 rounded-full bg-primary-500/20 blur-3xl"
-        animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/4 -left-20 w-80 h-80 rounded-full bg-primary-500/10 blur-3xl pointer-events-none"
+        animate={{ x: [0, 25, 0], y: [0, -18, 0] }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute bottom-1/4 -right-20 w-96 h-96 rounded-full bg-primary-400/15 blur-3xl"
-        animate={{ x: [0, -20, 0], y: [0, 25, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Grid pattern overlay */}
-      <div
-        className="absolute inset-0 opacity-5"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }}
+        className="absolute bottom-1/4 -right-16 w-96 h-96 rounded-full bg-primary-400/8 blur-3xl pointer-events-none"
+        animate={{ x: [0, -18, 0], y: [0, 22, 0] }}
+        transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
       />
 
       <motion.div
@@ -194,8 +159,8 @@ const Hero: React.FC = () => {
         style={{ opacity }}
       >
         <motion.span
-          className="inline-block text-primary-300 font-semibold text-sm uppercase tracking-widest mb-4"
-          variants={fadeInDown}
+          className="inline-block text-primary-400 font-semibold text-sm uppercase tracking-widest mb-6 px-4 py-1.5 rounded-full border border-primary-500/30 bg-primary-500/10"
+          variants={fadeInUp}
           initial="hidden"
           animate="visible"
         >
@@ -208,19 +173,19 @@ const Hero: React.FC = () => {
           initial="hidden"
           animate="visible"
         >
-          <motion.span variants={fadeInUp} className="block">
+          <motion.span variants={fadeInUp} className="block text-white">
             Empowering Businesses
           </motion.span>
           <motion.span
             variants={fadeInUp}
-            className="block text-gradient bg-gradient-to-r from-primary-300 to-accent-300 bg-clip-text text-transparent"
+            className="block bg-gradient-to-r from-primary-400 to-primary-300 bg-clip-text text-transparent"
           >
             with Smart Technology
           </motion.span>
         </motion.h1>
 
         <motion.p
-          className="text-xl text-gray-300 max-w-2xl mx-auto mb-10"
+          className="text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
           variants={fadeInUp}
           initial="hidden"
           animate="visible"
@@ -240,7 +205,10 @@ const Hero: React.FC = () => {
             href="#contact"
             className="btn-primary"
             variants={scaleIn}
-            whileHover={{ scale: 1.06, boxShadow: "0 0 30px rgba(31,199,199,0.5)" }}
+            whileHover={{
+              scale: 1.06,
+              boxShadow: "0 0 30px rgba(31,199,199,0.45)",
+            }}
             whileTap={{ scale: 0.97 }}
           >
             Start Your Project
@@ -249,7 +217,10 @@ const Hero: React.FC = () => {
             href="#projects"
             className="btn-ghost"
             variants={scaleIn}
-            whileHover={{ scale: 1.04, backgroundColor: "rgba(255,255,255,0.15)" }}
+            whileHover={{
+              scale: 1.04,
+              backgroundColor: "rgba(255,255,255,0.1)",
+            }}
             whileTap={{ scale: 0.97 }}
           >
             View Our Work
@@ -264,9 +235,9 @@ const Hero: React.FC = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
         >
-          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-1">
+          <div className="w-6 h-10 border-2 border-primary-500/40 rounded-full flex items-start justify-center p-1">
             <motion.div
-              className="w-1.5 h-1.5 bg-white/60 rounded-full"
+              className="w-1.5 h-1.5 bg-primary-400 rounded-full"
               animate={{ y: [0, 14, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
@@ -285,7 +256,7 @@ const AnimatedCounter: React.FC<{ value: string; label: string }> = ({
   return (
     <motion.div className="text-center" variants={scaleIn}>
       <motion.div
-        className="text-3xl font-bold text-primary-500 mb-1"
+        className="text-3xl font-bold text-primary-400 mb-1"
         initial={{ opacity: 0, scale: 0.5 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={viewportConfig}
@@ -298,11 +269,10 @@ const AnimatedCounter: React.FC<{ value: string; label: string }> = ({
   );
 };
 
-/* ── About with parallax and scroll reveal ── */
-
+/* ── About section ── */
 const About: React.FC = () => {
   return (
-    <section id="about" className="section-padding bg-white overflow-hidden">
+    <section id="about" className="section-padding section-dark overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
@@ -312,7 +282,7 @@ const About: React.FC = () => {
             viewport={viewportConfig}
           >
             <motion.span
-              className="inline-block text-primary-500 font-semibold text-sm uppercase tracking-widest mb-3"
+              className="inline-block text-primary-400 font-semibold text-sm uppercase tracking-widest mb-3"
               variants={fadeInUp}
             >
               About Us
@@ -321,7 +291,7 @@ const About: React.FC = () => {
               Your Technology Partner for Growth
             </motion.h2>
             <motion.p
-              className="text-gray-600 leading-relaxed mb-4"
+              className="text-gray-400 leading-relaxed mb-4"
               variants={fadeInUp}
             >
               Spire Infotech is a leading software solutions company based in
@@ -330,7 +300,7 @@ const About: React.FC = () => {
               solutions for businesses of all sizes.
             </motion.p>
             <motion.p
-              className="text-gray-600 leading-relaxed mb-6"
+              className="text-gray-400 leading-relaxed mb-6"
               variants={fadeInUp}
             >
               With over a decade of experience, our team of skilled developers
@@ -364,7 +334,6 @@ const About: React.FC = () => {
               className="card-gradient p-10 text-white rounded-2xl relative overflow-hidden"
               whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
             >
-              {/* Background morph blob */}
               <motion.div
                 className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full"
                 animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
@@ -386,8 +355,7 @@ const About: React.FC = () => {
   );
 };
 
-/* ── Services with card flip / lift animations ── */
-
+/* ── Services section ── */
 const serviceItems = [
   {
     title: "ERP Solutions",
@@ -428,7 +396,7 @@ const ServiceCard: React.FC<{
   index: number;
 }> = ({ title, desc, icon, index }) => (
   <motion.div
-    className="card p-6 relative overflow-hidden group"
+    className="card card-glow p-6 relative overflow-hidden group"
     variants={fadeInUp}
     initial="hidden"
     whileInView="visible"
@@ -436,12 +404,14 @@ const ServiceCard: React.FC<{
     transition={{ delay: index * 0.08 }}
     whileHover={{
       y: -8,
-      boxShadow: "0 20px 48px rgba(31,199,199,0.18)",
       transition: { duration: 0.3 },
     }}
   >
+    {/* Hover border glow */}
+    <div className="absolute inset-0 rounded-2xl border border-primary-500/0 group-hover:border-primary-500/30 transition-all duration-500" />
+
     {/* Hover gradient overlay */}
-    <div className="absolute inset-0 bg-gradient-to-br from-primary-50/0 to-primary-100/0 group-hover:from-primary-50/60 group-hover:to-primary-100/40 transition-all duration-500 rounded-2xl" />
+    <div className="absolute inset-0 bg-gradient-to-br from-primary-500/0 to-primary-500/0 group-hover:from-primary-500/8 group-hover:to-transparent transition-all duration-500 rounded-2xl" />
 
     <motion.div
       className="text-4xl mb-4 relative z-10"
@@ -450,10 +420,10 @@ const ServiceCard: React.FC<{
     >
       {icon}
     </motion.div>
-    <h3 className="font-bold text-secondary-800 text-lg mb-2 relative z-10 group-hover:text-primary-600 transition-colors duration-300">
+    <h3 className="font-bold text-gray-100 text-lg mb-2 relative z-10 group-hover:text-primary-400 transition-colors duration-300">
       {title}
     </h3>
-    <p className="text-gray-600 text-sm leading-relaxed relative z-10">
+    <p className="text-gray-400 text-sm leading-relaxed relative z-10">
       {desc}
     </p>
 
@@ -463,7 +433,7 @@ const ServiceCard: React.FC<{
 );
 
 const Services: React.FC = () => (
-  <section id="services" className="section-padding bg-gray-50">
+  <section id="services" className="section-padding section-dark-alt">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.div
         className="text-center mb-12"
@@ -472,11 +442,11 @@ const Services: React.FC = () => (
         whileInView="visible"
         viewport={viewportConfig}
       >
-        <span className="inline-block text-primary-500 font-semibold text-sm uppercase tracking-widest mb-3">
+        <span className="inline-block text-primary-400 font-semibold text-sm uppercase tracking-widest mb-3">
           What We Do
         </span>
         <h2 className="section-title">Our Services</h2>
-        <p className="section-subtitle mx-auto text-gray-600">
+        <p className="section-subtitle mx-auto">
           Comprehensive technology solutions to accelerate your digital
           transformation journey.
         </p>
@@ -497,7 +467,6 @@ const Services: React.FC = () => (
 );
 
 /* ── Why Choose Us ── */
-
 const whyItems = [
   {
     title: "Expert Team",
@@ -578,8 +547,7 @@ const WhyChooseUs: React.FC = () => (
   </section>
 );
 
-/* ── Technologies with animated badges ── */
-
+/* ── Technologies section ── */
 const technologies = [
   "React",
   "Next.js",
@@ -596,7 +564,7 @@ const technologies = [
 ];
 
 const Technologies: React.FC = () => (
-  <section id="technologies" className="section-padding bg-white">
+  <section id="technologies" className="section-padding section-dark">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.div
         className="text-center mb-12"
@@ -605,11 +573,11 @@ const Technologies: React.FC = () => (
         whileInView="visible"
         viewport={viewportConfig}
       >
-        <span className="inline-block text-primary-500 font-semibold text-sm uppercase tracking-widest mb-3">
+        <span className="inline-block text-primary-400 font-semibold text-sm uppercase tracking-widest mb-3">
           Tech Stack
         </span>
         <h2 className="section-title">Technologies We Use</h2>
-        <p className="section-subtitle mx-auto text-gray-600">
+        <p className="section-subtitle mx-auto">
           We leverage the latest and most reliable technologies to build robust
           solutions.
         </p>
@@ -625,13 +593,9 @@ const Technologies: React.FC = () => (
           <motion.div
             key={tech}
             variants={scaleIn}
-            className="px-6 py-3 rounded-full border-2 border-primary-200 text-secondary-700 font-medium text-sm transition-all duration-200 cursor-default"
+            className="tech-badge"
             whileHover={{
               scale: 1.08,
-              borderColor: "#1fc7c7",
-              color: "#1fc7c7",
-              backgroundColor: "#e8fafa",
-              boxShadow: "0 4px 16px rgba(31,199,199,0.2)",
               transition: { duration: 0.2 },
             }}
             whileTap={{ scale: 0.96 }}
@@ -644,44 +608,49 @@ const Technologies: React.FC = () => (
   </section>
 );
 
-/* ── Projects with image-style zoom and overlay ── */
-
+/* ── Projects section ── */
 const projects = [
   {
     title: "TradePro ERP",
     desc: "Comprehensive ERP system for an import/export company with inventory, billing, and compliance modules.",
     tag: "ERP",
-    color: "from-blue-500/20 to-blue-600/10",
+    accent: "from-blue-500/20 to-blue-600/10",
+    border: "border-blue-500/20",
   },
   {
     title: "HealthFirst HMS",
     desc: "Hospital management system for a 5-clinic chain with appointments, billing, and EMR.",
     tag: "Healthcare",
-    color: "from-green-500/20 to-green-600/10",
+    accent: "from-green-500/20 to-green-600/10",
+    border: "border-green-500/20",
   },
   {
     title: "RetailMax Platform",
     desc: "Multi-vendor e-commerce platform with real-time inventory and analytics dashboard.",
     tag: "E-Commerce",
-    color: "from-purple-500/20 to-purple-600/10",
+    accent: "from-purple-500/20 to-purple-600/10",
+    border: "border-purple-500/20",
   },
   {
     title: "LogiTrack App",
     desc: "Mobile logistics tracking app for fleet management and real-time shipment monitoring.",
     tag: "Mobile",
-    color: "from-orange-500/20 to-orange-600/10",
+    accent: "from-orange-500/20 to-orange-600/10",
+    border: "border-orange-500/20",
   },
   {
     title: "FinSmart Dashboard",
     desc: "Financial analytics platform with automated reporting and compliance tracking.",
     tag: "FinTech",
-    color: "from-yellow-500/20 to-yellow-600/10",
+    accent: "from-yellow-500/20 to-yellow-600/10",
+    border: "border-yellow-500/20",
   },
   {
     title: "EduLearn LMS",
     desc: "Learning management system for corporate training with progress tracking and certification.",
     tag: "EdTech",
-    color: "from-teal-500/20 to-teal-600/10",
+    accent: "from-teal-500/20 to-teal-600/10",
+    border: "border-teal-500/20",
   },
 ];
 
@@ -689,11 +658,12 @@ const ProjectCard: React.FC<{
   title: string;
   desc: string;
   tag: string;
-  color: string;
+  accent: string;
+  border: string;
   index: number;
-}> = ({ title, desc, tag, color, index }) => (
+}> = ({ title, desc, tag, accent, border, index }) => (
   <motion.div
-    className={`card p-6 relative overflow-hidden group bg-gradient-to-br ${color} border border-gray-100`}
+    className={`card p-6 relative overflow-hidden group bg-gradient-to-br ${accent} border ${border}`}
     variants={fadeInUp}
     initial="hidden"
     whileInView="visible"
@@ -702,22 +672,20 @@ const ProjectCard: React.FC<{
     whileHover={{
       y: -8,
       scale: 1.02,
-      boxShadow: "0 20px 48px rgba(0,0,0,0.12)",
       transition: { duration: 0.3 },
     }}
   >
     <motion.span
-      className="inline-block text-xs font-semibold text-primary-600 bg-primary-50 px-3 py-1 rounded-full mb-3"
+      className="project-tag-dark inline-block mb-3"
       whileHover={{ scale: 1.05 }}
     >
       {tag}
     </motion.span>
-    <h3 className="font-bold text-secondary-800 text-lg mb-2 group-hover:text-primary-600 transition-colors duration-300">
+    <h3 className="font-bold text-gray-100 text-lg mb-2 group-hover:text-primary-400 transition-colors duration-300">
       {title}
     </h3>
-    <p className="text-gray-600 text-sm leading-relaxed">{desc}</p>
+    <p className="text-gray-400 text-sm leading-relaxed">{desc}</p>
 
-    {/* Arrow indicator on hover */}
     <motion.div
       className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-primary-500/0 group-hover:bg-primary-500 flex items-center justify-center transition-all duration-300"
       initial={{ opacity: 0, x: 10 }}
@@ -742,7 +710,7 @@ const ProjectCard: React.FC<{
 );
 
 const Projects: React.FC = () => (
-  <section id="projects" className="section-padding bg-gray-50">
+  <section id="projects" className="section-padding section-dark-alt">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.div
         className="text-center mb-12"
@@ -751,23 +719,24 @@ const Projects: React.FC = () => (
         whileInView="visible"
         viewport={viewportConfig}
       >
-        <span className="inline-block text-primary-500 font-semibold text-sm uppercase tracking-widest mb-3">
+        <span className="inline-block text-primary-400 font-semibold text-sm uppercase tracking-widest mb-3">
           Portfolio
         </span>
         <h2 className="section-title">Our Projects</h2>
-        <p className="section-subtitle mx-auto text-gray-600">
+        <p className="section-subtitle mx-auto">
           A selection of the impactful solutions we&apos;ve built for our
           clients.
         </p>
       </motion.div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map(({ title, desc, tag, color }, i) => (
+        {projects.map(({ title, desc, tag, accent, border }, i) => (
           <ProjectCard
             key={title}
             title={title}
             desc={desc}
             tag={tag}
-            color={color}
+            accent={accent}
+            border={border}
             index={i}
           />
         ))}

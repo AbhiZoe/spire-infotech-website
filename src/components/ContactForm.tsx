@@ -90,14 +90,14 @@ const ContactForm: React.FC = () => {
 
   return (
     <div className="card p-8">
-      <h3 className="text-xl font-bold text-secondary-800 mb-6">
+      <h3 className="text-xl font-bold text-gray-100 mb-6">
         Send Us a Message
       </h3>
 
       {status === "success" && (
-        <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start gap-3">
+        <div className="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg flex items-start gap-3">
           <svg
-            className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
+            className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -109,7 +109,7 @@ const ContactForm: React.FC = () => {
               d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <p className="text-green-700 text-sm">
+          <p className="text-green-400 text-sm">
             Thank you! Your message has been sent successfully. We&apos;ll get
             back to you within 24 hours.
           </p>
@@ -117,9 +117,9 @@ const ContactForm: React.FC = () => {
       )}
 
       {status === "error" && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
+        <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg flex items-start gap-3">
           <svg
-            className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0"
+            className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -131,7 +131,7 @@ const ContactForm: React.FC = () => {
               d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <p className="text-red-700 text-sm">{errorMessage}</p>
+          <p className="text-red-400 text-sm">{errorMessage}</p>
         </div>
       )}
 
@@ -182,7 +182,7 @@ const ContactForm: React.FC = () => {
         <div className="mb-4">
           <label htmlFor="phone" className="form-label">
             Phone Number{" "}
-            <span className="text-gray-400 font-normal">(Optional)</span>
+            <span className="text-gray-500 font-normal">(Optional)</span>
           </label>
           <input
             id="phone"
