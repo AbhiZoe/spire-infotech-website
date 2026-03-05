@@ -12,8 +12,6 @@ import {
   scaleIn,
   staggerContainer,
   staggerContainerFast,
-  cardHover,
-  buttonHover,
   viewportConfig,
 } from "@/lib/animations";
 
