@@ -24,7 +24,7 @@ const testimonials: Testimonial[] = [
       "Spire Infotech delivered an exceptional ERP system that transformed our operations. Their team's expertise and dedication exceeded our expectations. The project was completed on time and within budget.",
     rating: 5,
     initials: "RK",
-    avatar: "/images/testimonials/avatar-1.svg",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=96&h=96&q=80",
   },
   {
     id: 2,
@@ -35,7 +35,7 @@ const testimonials: Testimonial[] = [
       "The custom software solution developed by Spire Infotech streamlined our export documentation process by 60%. Their support team is always responsive and helpful. Highly recommend their services.",
     rating: 5,
     initials: "PS",
-    avatar: "/images/testimonials/avatar-2.svg",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=96&h=96&q=80",
   },
   {
     id: 3,
@@ -46,7 +46,7 @@ const testimonials: Testimonial[] = [
       "Working with Spire Infotech on our e-commerce platform was a fantastic experience. They understood our vision and built exactly what we needed. Our online sales have grown by 40% since launch.",
     rating: 5,
     initials: "AM",
-    avatar: "/images/testimonials/avatar-3.svg",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=96&h=96&q=80",
   },
   {
     id: 4,
@@ -57,7 +57,7 @@ const testimonials: Testimonial[] = [
       "Spire Infotech developed a robust hospital management system for our clinic chain. The system handles appointments, billing, and medical records seamlessly. Their team provided excellent training and support.",
     rating: 5,
     initials: "SP",
-    avatar: "/images/testimonials/avatar-4.svg",
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=96&h=96&q=80",
   },
 ];
 
