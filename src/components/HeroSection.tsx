@@ -1,45 +1,44 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import './HeroSection.css'; // Assuming there is a CSS file for styles
 
 gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection: React.FC = () => {
     const headlineRef = useRef<HTMLHeadingElement>(null);
-    const particlesRef = useRef<HTMLDivElement>(null); // Reference for particles orbs
 
     useEffect(() => {
         if (headlineRef.current) {
-            gsap.fromTo(headlineRef.current,
-                { scale: 1, rotation: 0 },
-                {
-                    scale: 2.5,
-                    rotation: 360,
+            gsap.fromTo(headlineRef.current, 
+                { scale: 1, rotation: 0 }, 
+                { scale: 2.5, rotation: 360, 
                     scrollTrigger: {
                         trigger: headlineRef.current,
                         start: 'top 80%',
                         end: 'bottom 20%',
                         scrub: true,
-                    }
-                });
+                        pin: true,
+                    },
+                }
+            );
         }
     }, []);
 
     return (
-        <div className="hero-section">
-            <div className="particles" ref={particlesRef}>
-                {/* Example for orbs or particle components */}
-                <div className="orb"></div>
-                <div className="orb"></div>
-                <div className="orb"></div>
-                {/* Add more orbs as needed */}
+        <section className="hero-section w-full min-h-screen flex items-center justify-center bg-gray-900">
+            <div className="relative z-10 text-center">
+                <h1 className="headline text-white font-black text-6xl leading-tight" ref={headlineRef} style={{
+                    textRendering: 'geometricPrecision',
+                    WebkitFontSmoothing: 'antialiased',
+                    willChange: 'transform',
+                }}>
+                    Every great technology begins with a human idea that refuses to stay grounded.
+                </h1>
+                <button className="mt-8 px-8 py-3 bg-cyan-500 text-white rounded-lg font-semibold hover:bg-cyan-600 transition-colors">
+                    Get Started
+                </button>
             </div>
-            <h1 className="headline" ref={headlineRef}>
-                Welcome to Our Website
-            </h1>
-            <button className="cta-button">Get Started</button>
-        </div>
+        </section>
     );
 };
 
