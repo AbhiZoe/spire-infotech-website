@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { Variants } from "framer-motion";
 import "@/styles/globals.css";
+import "@/styles/hero.css";
 
 const pageVariants: Variants = {
   initial: { opacity: 0, y: 8 },
