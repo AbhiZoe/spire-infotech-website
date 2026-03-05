@@ -626,26 +626,60 @@ body {
 
 /* ===================== HERO PARTICLE DISSOLVE ===================== */
 
+/* ===== HERO PERFORMANCE OPTIMIZATION ===== */
+
 .hero-headline {
-  word-break: keep-all;
-  text-wrap: balance;
-  text-rendering: geometricPrecision;
+  transform: translateZ(0);
+  will-change: transform, opacity, filter;
   backface-visibility: hidden;
-  will-change: transform, filter, opacity;
 }
 
 .hero-background {
-  will-change: transform, opacity;
   transform: translateZ(0);
+  will-change: transform, opacity;
 }
 
-.mask-wrapper {
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.camera-layer {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+/* ===== HERO LIGHT SWEEP ===== */
+
+/* Light sweep effect */
+
+.hero-headline {
   position: relative;
 }
 
-.mask-text {
-  color: transparent;
-  background: linear-gradient(#ffffff, #ffffff);
-  background-clip: text;
-  -webkit-background-clip: text;
+.hero-headline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,0.25) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+}
+
+.hero-headline.light-pass::after {
+  animation: heroLightPass 1.6s ease forwards;
+}
+
+@keyframes heroLightPass {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(200%); }
+}
+canvas {
+  pointer-events: none;
 }
