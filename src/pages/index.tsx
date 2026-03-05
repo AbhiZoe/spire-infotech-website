@@ -1,44 +1,14 @@
 import React from "react";
 import Head from "next/head";
+import Navbar from "@/components/Navbar";
 import Testimonials from "@/components/Testimonials";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
-/* ── Inline section components to avoid file bloat ── */
-
-const Navbar: React.FC = () => (
-  <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-      <a href="#" className="flex items-center gap-2 font-bold text-secondary-800">
-        <div className="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center text-white text-sm font-bold">
-          SI
-        </div>
-        <span>Spire Infotech</span>
-      </a>
-      <div className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
-        {["About", "Services", "Projects", "Testimonials", "Contact"].map(
-          (item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="hover:text-primary-500 transition-colors"
-            >
-              {item}
-            </a>
-          )
-        )}
-        <a href="#contact" className="btn-primary text-sm px-4 py-2">
-          Get in Touch
-        </a>
-      </div>
-    </div>
-  </nav>
-);
-
 const Hero: React.FC = () => (
   <section
     id="hero"
-    className="min-h-screen flex items-center gradient-dark text-white pt-16"
+    className="min-h-screen flex items-center gradient-dark text-white pt-20"
   >
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
       <span className="inline-block text-primary-400 font-semibold text-sm uppercase tracking-widest mb-4 animate-fade-in">
