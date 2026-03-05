@@ -187,39 +187,70 @@ const HeroSection: React.FC = () => {
     const headline = headlineRef.current;
     if (!hero || !headline) return;
 
-    // Use font-size zoom (NOT transform scale) for perfectly crisp text
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
-    const endFontSize = isMobile ? "15vw" : "20vw";
+    let ctx: ReturnType<typeof gsap.context> | null = null;
+    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: hero,
-        start: "top top",
-        end: "+=600",
-        scrub: 1,
-        pin: true,
-        anticipatePin: 1,
-      },
-    });
+    const buildAnimation = () => {
+      if (ctx) {
+        ctx.revert();
+        ctx = null;
+      }
 
-    // Animate font-size: 4rem → endFontSize (sharp, NO blur)
-    tl.to(headline, {
-      fontSize: endFontSize,
-      ease: "none",
-    });
+      const width = window.innerWidth;
+      let endFontSize: string;
+      if (width < 768) {
+        endFontSize = "12vw";
+      } else if (width < 1024) {
+        endFontSize = "16vw";
+      } else {
+        endFontSize = "20vw";
+      }
 
-    // Fade out in the second half of the scroll
-    tl.to(
-      headline,
-      {
-        opacity: 0.3,
-        ease: "none",
-      },
-      0.5 // start at 50% through the timeline
-    );
+      ctx = gsap.context(() => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: hero,
+            start: "top top",
+            end: "+=600",
+            scrub: 1,
+            pin: true,
+            anticipatePin: 1,
+          },
+        });
+
+        // Animate font-size: 4rem → endFontSize (sharp, NO blur)
+        tl.to(headline, {
+          fontSize: endFontSize,
+          ease: "none",
+        });
+
+        // Fade out completely in the second half of the scroll
+        tl.to(
+          headline,
+          {
+            opacity: 0,
+            ease: "none",
+          },
+          0.5 // start at 50% through the timeline
+        );
+      });
+    };
+
+    buildAnimation();
+
+    const handleResize = () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(buildAnimation, 200);
+    };
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      ScrollTrigger.getAll().forEach((st) => st.kill());
+      if (resizeTimer) clearTimeout(resizeTimer);
+      window.removeEventListener("resize", handleResize);
+      if (ctx) {
+        ctx.revert();
+        ctx = null;
+      }
     };
   }, []);
 
