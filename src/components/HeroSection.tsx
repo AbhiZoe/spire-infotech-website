@@ -1,44 +1,15 @@
-import React, { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+// Code for HeroSection with cinematic zoom scroll animation
 
-gsap.registerPlugin(ScrollTrigger);
+import React from 'react';
+import './HeroSection.css';
 
-const HeroSection: React.FC = () => {
-    const headlineRef = useRef<HTMLHeadingElement>(null);
-
-    useEffect(() => {
-        if (headlineRef.current) {
-            gsap.fromTo(headlineRef.current, 
-                { scale: 1, rotation: 0 }, 
-                { scale: 2.5, rotation: 360, 
-                    scrollTrigger: {
-                        trigger: headlineRef.current,
-                        start: 'top 80%',
-                        end: 'bottom 20%',
-                        scrub: true,
-                        pin: true,
-                    },
-                }
-            );
-        }
-    }, []);
-
+const HeroSection = () => {
     return (
-        <section className="hero-section w-full min-h-screen flex items-center justify-center bg-gray-900">
-            <div className="relative z-10 text-center">
-                <h1 className="headline text-white font-black text-6xl leading-tight" ref={headlineRef} style={{
-                    textRendering: 'geometricPrecision',
-                    WebkitFontSmoothing: 'antialiased',
-                    willChange: 'transform',
-                }}>
-                    Every great technology begins with a human idea that refuses to stay grounded.
-                </h1>
-                <button className="mt-8 px-8 py-3 bg-cyan-500 text-white rounded-lg font-semibold hover:bg-cyan-600 transition-colors">
-                    Get Started
-                </button>
-            </div>
-        </section>
+        <div className='hero-container'>
+            <video src='/videos/hero-video.mp4' autoPlay loop muted />
+            <h1>Welcome to Our Website</h1>
+            <p>Experience cinematic zoom scroll!</p>
+        </div>
     );
 };
 
