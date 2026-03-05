@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeInUp, viewportConfig } from "@/lib/animations";
 
@@ -9,7 +10,7 @@ interface Testimonial {
   company: string;
   content: string;
   rating: number;
-  initials: string;
+  avatar: string;
 }
 
 const testimonials: Testimonial[] = [
@@ -21,7 +22,7 @@ const testimonials: Testimonial[] = [
     content:
       "Spire Infotech delivered an exceptional ERP system that transformed our operations. Their team's expertise and dedication exceeded our expectations. The project was completed on time and within budget.",
     rating: 5,
-    initials: "RK",
+    avatar: "/images/testimonials/avatar-1.svg",
   },
   {
     id: 2,
@@ -31,7 +32,7 @@ const testimonials: Testimonial[] = [
     content:
       "The custom software solution developed by Spire Infotech streamlined our export documentation process by 60%. Their support team is always responsive and helpful. Highly recommend their services.",
     rating: 5,
-    initials: "PS",
+    avatar: "/images/testimonials/avatar-2.svg",
   },
   {
     id: 3,
@@ -41,7 +42,7 @@ const testimonials: Testimonial[] = [
     content:
       "Working with Spire Infotech on our e-commerce platform was a fantastic experience. They understood our vision and built exactly what we needed. Our online sales have grown by 40% since launch.",
     rating: 5,
-    initials: "AM",
+    avatar: "/images/testimonials/avatar-3.svg",
   },
   {
     id: 4,
@@ -51,7 +52,7 @@ const testimonials: Testimonial[] = [
     content:
       "Spire Infotech developed a robust hospital management system for our clinic chain. The system handles appointments, billing, and medical records seamlessly. Their team provided excellent training and support.",
     rating: 5,
-    initials: "SP",
+    avatar: "/images/testimonials/avatar-4.svg",
   },
 ];
 
@@ -160,10 +161,16 @@ const Testimonials: React.FC = () => {
                 </blockquote>
                 <div className="flex items-center gap-4">
                   <motion.div
-                    className="w-12 h-12 rounded-full bg-primary-500 flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
+                    className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0"
                     whileHover={{ scale: 1.1, rotate: 5 }}
                   >
-                    {testimonial.initials}
+                    <Image
+                      src={testimonial.avatar}
+                      alt={testimonial.name}
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-cover"
+                    />
                   </motion.div>
                   <div>
                     <p className="font-semibold text-gray-100">
