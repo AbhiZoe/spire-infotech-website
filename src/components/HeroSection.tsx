@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import NeuralBrainHero from "@/components/NeuralBrainHero";
+import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -9,8 +10,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection: React.FC = () => {
 
-  const heroRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement | null>(null);
+  const textRef = useRef<HTMLDivElement | null>(null);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
 
@@ -20,26 +22,32 @@ const HeroSection: React.FC = () => {
       scrollTrigger: {
         trigger: heroRef.current,
         start: "top top",
-        end: "+=1500",
+        end: "+=1200",
         scrub: true,
         pin: true
       }
     });
 
-    /* STEP 1 — zoom network */
+    /* Zoom neural background */
     tl.to(heroRef.current, {
-      scale: 1.4,
+      scale: 1.35,
       ease: "none"
     });
 
-    /* STEP 2 — explode effect */
-    tl.to(heroRef.current, {
-      scale: 2,
-      opacity: 0.4,
+    /* Fade hero text */
+    tl.to(textRef.current, {
+      opacity: 0,
+      y: -80,
       ease: "none"
-    });
+    }, 0);
 
-    /* STEP 3 — reveal next section */
+    /* Darken background */
+    tl.to(overlayRef.current, {
+      opacity: 0.7,
+      ease: "none"
+    }, 0);
+
+    /* Reveal about section */
     tl.to("#about", {
       opacity: 1,
       y: 0,
@@ -54,32 +62,50 @@ const HeroSection: React.FC = () => {
       className="relative w-full h-screen overflow-hidden"
     >
 
-      {/* neural background */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/10 to-transparent z-10" >
+      {/* Neural Background */}
+      <div className="absolute inset-0 z-0">
         <NeuralBrainHero />
       </div>
 
-      {/* overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent z-10" />
-
-      {/* text */}
+      {/* Overlay */}
       <div
-        ref={contentRef}
-        className="relative z-20 h-full flex items-center"
-      >
-        <div className="max-w-7xl mx-auto px-8 grid md:grid-cols-2 w-full items-center">
+        ref={overlayRef}
+        className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/10 to-transparent z-10"
+      />
 
-          <div className="backdrop-blur-md bg-black/10 border border-white/10 p-10 rounded-2xl max-w-xl">
+      {/* Hero Content */}
+      <div className="relative z-20 h-full flex items-center">
 
-            <h1 className="text-white font-bold text-[clamp(3rem,6vw,5rem)]">
-              <span className="text-cyan-400">SPIRE</span> INFOTECH
-            </h1>
+        <div
+          ref={textRef}
+          className="max-w-7xl mx-auto w-full px-10 grid md:grid-cols-2 items-center"
+        >
 
-            <p className="mt-6 text-gray-300 text-lg max-w-xl">
+          <div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9 }}
+              className="text-white font-bold text-[clamp(3rem,6vw,5rem)] leading-tight"
+            >
+              <span className="text-cyan-400 drop-shadow-[0_0_20px_rgba(0,255,255,0.8)]">
+                SPIRE
+              </span>
+              <br />
+              INFOTECH
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.9 }}
+              className="mt-6 text-gray-300 text-lg max-w-xl"
+            >
               Every great technology begins with a human idea.
               We build intelligent software systems that empower
               businesses to scale and innovate in the digital age.
-            </p>
+            </motion.p>
 
             <div className="mt-8 flex gap-4">
 
@@ -101,7 +127,10 @@ const HeroSection: React.FC = () => {
 
           </div>
 
+          <div />
+
         </div>
+
       </div>
 
     </section>

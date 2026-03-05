@@ -21,7 +21,7 @@ const NeuralBrainHero: React.FC = () => {
 
     /* CAMERA */
     const camera = new THREE.PerspectiveCamera(65, width / height, 0.1, 1000);
-    camera.position.z = 45;
+    camera.position.z = 20;
 
     /* RENDERER */
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -34,7 +34,7 @@ const NeuralBrainHero: React.FC = () => {
     const nodePositions: number[] = [];
 
     for (let i = 0; i < NODE_COUNT; i++) {
-      const x = (Math.random() - 0.5) * 40;
+      const x = (Math.random() - 0.5) * 60;
       const y = (Math.random() - 0.5) * 24;
       const z = (Math.random() - 0.5) * 30;
 
