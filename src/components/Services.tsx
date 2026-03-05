@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { fadeInRightScale, staggerContainerFast, viewportConfig } from "@/lib/animations";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionTitle from "./SectionTitle";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const serviceItems = [
   {
@@ -55,15 +58,9 @@ const ServiceCard: React.FC<{
   icon: string;
   image: string;
   imageAlt: string;
-  index: number;
-}> = ({ title, desc, image, imageAlt, index }) => (
+}> = ({ title, desc, image, imageAlt }) => (
   <motion.div
-    className="card card-glow p-6 relative overflow-hidden group"
-    variants={fadeInRightScale}
-    initial="hidden"
-    whileInView="visible"
-    viewport={viewportConfig}
-    transition={{ delay: index * 0.08 }}
+    className="service-card card card-glow p-6 relative overflow-hidden group"
     whileHover={{
       y: -8,
       transition: { duration: 0.3 },
@@ -101,36 +98,60 @@ const ServiceCard: React.FC<{
   </motion.div>
 );
 
-const Services: React.FC = () => (
-  <motion.section
-    id="services"
-    className="section-padding section-dark-alt"
-    variants={staggerContainerFast}
-    initial="hidden"
-    whileInView="visible"
-    viewport={{ once: true, margin: "-60px" }}
-  >
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <SectionTitle
-        label="What We Do"
-        title="Our Services"
-        subtitle="Comprehensive technology solutions to accelerate your digital transformation journey."
-      />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {serviceItems.map(({ title, desc, icon, image, imageAlt }, i) => (
-          <ServiceCard
-            key={title}
-            title={title}
-            desc={desc}
-            icon={icon}
-            image={image}
-            imageAlt={imageAlt}
-            index={i}
-          />
-        ))}
+const Services: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".service-card",
+        { x: 50, scale: 0.9, opacity: 0 },
+        {
+          x: 0,
+          scale: 1,
+          opacity: 1,
+          duration: 0.7,
+          ease: "power2.out",
+          stagger: 0.08,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      id="services"
+      className="section-padding section-dark-alt"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionTitle
+          label="What We Do"
+          title="Our Services"
+          subtitle="Comprehensive technology solutions to accelerate your digital transformation journey."
+        />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {serviceItems.map(({ title, desc, icon, image, imageAlt }) => (
+            <ServiceCard
+              key={title}
+              title={title}
+              desc={desc}
+              icon={icon}
+              image={image}
+              imageAlt={imageAlt}
+            />
+          ))}
+        </div>
       </div>
-    </div>
-  </motion.section>
-);
+    </section>
+  );
+};
 
 export default Services;

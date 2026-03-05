@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ContactForm from "./ContactForm";
-import { slideUpBlurFade, staggerContainer, viewportConfig } from "@/lib/animations";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface ContactCardProps {
   icon: React.ReactNode;
@@ -19,8 +22,7 @@ const ContactCard: React.FC<ContactCardProps> = ({
   linkLabel,
 }) => (
     <motion.div
-      className="card p-6 flex flex-col items-center text-center group"
-      variants={slideUpBlurFade}
+      className="contact-card card p-6 flex flex-col items-center text-center group"
       whileHover={{
         y: -6,
         boxShadow: "0 16px 40px rgba(31,199,199,0.16)",
@@ -54,6 +56,7 @@ const ContactCard: React.FC<ContactCardProps> = ({
 );
 
 const Contact: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
   const cards: ContactCardProps[] = [
     {
       icon: (
@@ -126,17 +129,72 @@ const Contact: React.FC = () => {
     },
   ];
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Heading slide up + blur
+      gsap.fromTo(
+        ".contact-heading",
+        { y: 50, opacity: 0, filter: "blur(8px)" },
+        {
+          y: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          duration: 0.7,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+
+      // Cards slide up + blur with stagger
+      gsap.fromTo(
+        ".contact-card",
+        { y: 50, opacity: 0, filter: "blur(8px)" },
+        {
+          y: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          duration: 0.7,
+          ease: "power2.out",
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: ".contact-cards-grid",
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+
+      // Contact form slide up + blur
+      gsap.fromTo(
+        ".contact-form-wrapper",
+        { y: 50, opacity: 0, filter: "blur(8px)" },
+        {
+          y: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          duration: 0.7,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".contact-form-wrapper",
+            start: "top 90%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="contact" className="section-padding section-dark">
+    <section ref={sectionRef} id="contact" className="section-padding section-dark">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
-        <motion.div
-          className="text-center mb-12"
-          variants={slideUpBlurFade}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportConfig}
-        >
+        <div className="contact-heading text-center mb-12">
           <span className="inline-block text-primary-400 font-semibold text-sm uppercase tracking-widest mb-3">
             Get in Touch
           </span>
@@ -145,31 +203,19 @@ const Contact: React.FC = () => {
             Have a project in mind or a question? We&apos;d love to hear from
             you. Reach out and we&apos;ll respond promptly.
           </p>
-        </motion.div>
+        </div>
 
         {/* Contact Cards */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportConfig}
-        >
+        <div className="contact-cards-grid grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {cards.map((card, i) => (
             <ContactCard key={i} {...card} />
           ))}
-        </motion.div>
+        </div>
 
         {/* Contact Form */}
-        <motion.div
-          className="max-w-2xl mx-auto"
-          variants={slideUpBlurFade}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportConfig}
-        >
+        <div className="contact-form-wrapper max-w-2xl mx-auto">
           <ContactForm />
-        </motion.div>
+        </div>
       </div>
     </section>
   );
