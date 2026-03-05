@@ -1,5 +1,7 @@
 import React from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { fadeInUp, fadeInLeft, staggerContainer, viewportConfig } from "@/lib/animations";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -56,17 +58,26 @@ const Footer: React.FC = () => {
   return (
     <footer className="gradient-dark text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportConfig}
+        >
           {/* Brand */}
-          <div className="animate-slide-in-left">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center font-bold text-white text-sm">
+          <motion.div variants={fadeInLeft}>
+            <motion.div
+              className="flex items-center gap-2 mb-4"
+              whileHover={{ x: 3 }}
+            >
+              <div className="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center font-bold text-white text-sm shadow-md">
                 SI
               </div>
               <span className="text-xl font-bold text-white">
                 Spire Infotech
               </span>
-            </div>
+            </motion.div>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
               Empowering businesses with innovative software solutions. We
               transform your digital vision into reality with cutting-edge
@@ -74,54 +85,66 @@ const Footer: React.FC = () => {
             </p>
             <div className="flex gap-3">
               {links.social.map((s) => (
-                <a
+                <motion.a
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
-                  className="w-9 h-9 rounded-lg bg-white/10 hover:bg-primary-500 flex items-center justify-center text-gray-400 hover:text-white transition-all duration-200"
+                  className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center text-gray-400 transition-all duration-200"
+                  whileHover={{
+                    scale: 1.15,
+                    backgroundColor: "#1fc7c7",
+                    color: "#ffffff",
+                    transition: { duration: 0.2 },
+                  }}
+                  whileTap={{ scale: 0.92 }}
                 >
                   <SocialIcon name={s.icon} />
-                </a>
+                </motion.a>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Services */}
-          <div>
+          <motion.div variants={fadeInUp}>
             <h4 className="font-semibold text-white mb-4">Services</h4>
             <ul className="space-y-2">
               {links.services.map((link) => (
                 <li key={link.label}>
-                  <a
+                  <motion.a
                     href={link.href}
-                    className="text-gray-400 hover:text-primary-400 text-sm transition-colors duration-200"
+                    className="text-gray-400 hover:text-primary-400 text-sm transition-colors duration-200 inline-flex items-center gap-1 group"
+                    whileHover={{ x: 4 }}
                   >
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary-500/0 group-hover:bg-primary-500 transition-all duration-200 flex-shrink-0" />
                     {link.label}
-                  </a>
+                  </motion.a>
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Company */}
-          <div>
+          <motion.div variants={fadeInUp}>
             <h4 className="font-semibold text-white mb-4">Company</h4>
             <ul className="space-y-2">
               {links.company.map((link) => (
                 <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-gray-400 hover:text-primary-400 text-sm transition-colors duration-200"
-                  >
-                    {link.label}
-                  </Link>
+                  <motion.div whileHover={{ x: 4 }}>
+                    <Link
+                      href={link.href}
+                      className="text-gray-400 hover:text-primary-400 text-sm transition-colors duration-200 inline-flex items-center gap-1 group"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary-500/0 group-hover:bg-primary-500 transition-all duration-200 flex-shrink-0" />
+                      {link.label}
+                    </Link>
+                  </motion.div>
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Contact Info */}
-          <div>
+          <motion.div variants={fadeInUp}>
             <h4 className="font-semibold text-white mb-4">Contact</h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-sm text-gray-400">
@@ -138,12 +161,13 @@ const Footer: React.FC = () => {
                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   />
                 </svg>
-                <a
+                <motion.a
                   href="mailto:info@spireitco.com"
                   className="hover:text-primary-400 transition-colors"
+                  whileHover={{ x: 2 }}
                 >
                   info@spireitco.com
-                </a>
+                </motion.a>
               </li>
               <li className="flex items-start gap-3 text-sm text-gray-400">
                 <svg
@@ -159,12 +183,13 @@ const Footer: React.FC = () => {
                     d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                   />
                 </svg>
-                <a
+                <motion.a
                   href="tel:+919876543210"
                   className="hover:text-primary-400 transition-colors"
+                  whileHover={{ x: 2 }}
                 >
                   +91 98765 43210
-                </a>
+                </motion.a>
               </li>
               <li className="flex items-start gap-3 text-sm text-gray-400">
                 <svg
@@ -189,26 +214,38 @@ const Footer: React.FC = () => {
                 <span>Surat, Gujarat, India</span>
               </li>
             </ul>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <motion.div
+          className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4"
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportConfig}
+        >
           <p className="text-gray-500 text-sm">
             &copy; {currentYear} Spire Infotech. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm text-gray-500">
-            <Link
-              href="/privacy-policy"
+            <motion.div whileHover={{ x: 2 }}>
+              <Link
+                href="/privacy-policy"
+                className="hover:text-primary-400 transition-colors"
+              >
+                Privacy Policy
+              </Link>
+            </motion.div>
+            <motion.a
+              href="#"
               className="hover:text-primary-400 transition-colors"
+              whileHover={{ x: 2 }}
             >
-              Privacy Policy
-            </Link>
-            <a href="#" className="hover:text-primary-400 transition-colors">
               Terms of Service
-            </a>
+            </motion.a>
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );
