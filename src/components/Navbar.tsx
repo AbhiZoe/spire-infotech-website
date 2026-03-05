@@ -23,7 +23,8 @@ const SpireLogo: React.FC = () => (
       width={150}
       height={50}
       priority
-      className="h-[50px] w-auto object-contain transition-opacity duration-200 group-hover:opacity-80"
+      style={{ width: "auto" }}
+      className="h-[50px] object-contain transition-opacity duration-200 group-hover:opacity-80"
     />
   </a>
 );

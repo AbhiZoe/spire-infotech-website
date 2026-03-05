@@ -86,6 +86,7 @@ const ServiceCard: React.FC<{
         width={48}
         height={48}
         className="w-12 h-12 object-contain"
+        unoptimized
       />
     </motion.div>
     <h3 className="font-bold text-gray-100 text-lg mb-2 relative z-10 group-hover:text-primary-400 transition-colors duration-300">
