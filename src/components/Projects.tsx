@@ -92,6 +92,7 @@ const ProjectCard: React.FC<{
           width={400}
           height={200}
           className="w-full h-36 object-cover"
+          unoptimized
         />
       </div>
     )}
