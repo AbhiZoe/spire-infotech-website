@@ -25,6 +25,7 @@
   text-align: center;
   max-width: 90%;
   padding: 0 20px;
+  overflow: visible;
 }
 
 .hero-headline {
@@ -36,7 +37,9 @@
   letter-spacing: -0.02em;
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   backface-visibility: hidden;
+  will-change: font-size;
   word-wrap: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
@@ -79,6 +82,37 @@
   .why-card-image img {
     transition: none;
   }
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #1fc7c7;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  animation: heroBounce 2s infinite;
+}
+
+.scroll-arrow {
+  font-size: 1.5rem;
+  animation: heroSlideDown 1.5s infinite;
+}
+
+@keyframes heroBounce {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes heroSlideDown {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(12px); opacity: 0; }
 }
 
 /* Responsive font-size starting point */
