@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import SectionTitle from "@/components/SectionTitle";
-import { staggerContainer, slideInFromBottom, viewportConfig } from "@/lib/animations";
+import { staggerContainer, flipInFromTop, FLIP_PERSPECTIVE, viewportConfig } from "@/lib/animations";
 import { whyChooseUsItems } from "@/data/whyChooseUs";
 
 const WhyChooseUs: React.FC = () => (
@@ -16,6 +16,7 @@ const WhyChooseUs: React.FC = () => (
 
       <motion.div
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        style={{ perspective: FLIP_PERSPECTIVE }}
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
@@ -24,7 +25,7 @@ const WhyChooseUs: React.FC = () => (
         {whyChooseUsItems.map(({ id, title, description, image, imageAlt }) => (
           <motion.div
             key={id}
-            variants={slideInFromBottom}
+            variants={flipInFromTop}
             className="why-card rounded-2xl bg-white/5 border border-white/10 hover:border-primary-500/50 hover:bg-white/10 transition-all duration-300 group overflow-hidden"
             whileHover={{ y: -4, transition: { duration: 0.25 } }}
           >

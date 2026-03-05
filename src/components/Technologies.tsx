@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { blurFade, staggerContainerFast, viewportConfig } from "@/lib/animations";
+import { staggerContainerFast, staggerRevealBottom, viewportConfig } from "@/lib/animations";
 import SectionTitle from "./SectionTitle";
 
 const technologies = [
@@ -37,7 +37,7 @@ const Technologies: React.FC = () => (
         {technologies.map(({ name, logo }) => (
           <motion.div
             key={name}
-            variants={blurFade}
+            variants={staggerRevealBottom}
             className="tech-badge flex items-center gap-2"
             whileHover={{
               scale: 1.1,

@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { fadeInUp, viewportConfig } from "@/lib/animations";
+import { bounceRotateIn, viewportConfig } from "@/lib/animations";
 import SectionTitle from "./SectionTitle";
 
 const projects = [
@@ -73,7 +73,7 @@ const ProjectCard: React.FC<{
 }> = ({ title, desc, tag, accent, border, image, imageAlt, index }) => (
   <motion.div
     className={`card p-6 relative overflow-hidden group bg-gradient-to-br ${accent} border ${border}`}
-    variants={fadeInUp}
+    variants={bounceRotateIn}
     initial="hidden"
     whileInView="visible"
     viewport={viewportConfig}
